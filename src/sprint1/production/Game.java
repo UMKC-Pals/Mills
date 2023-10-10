@@ -12,7 +12,7 @@ public class Game {
  public boolean dirAndFileSetup(){
 
      String homeDir= System.getProperty("user.home");
-     Path gameDirPath= Paths.get(homeDir,"Mills");
+     Path gameDirPath= Paths.get(homeDir,"MillsData");
      boolean gameDirExists=false;
 
      if(Files.exists(gameDirPath) == false){
