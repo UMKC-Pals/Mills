@@ -91,6 +91,8 @@ public class NineMensMorrisFrame extends JFrame {
 
     private JLabel imageLabel;
 
+
+
     public NineMensMorrisFrame(){
         setResizable(false);
         setTitle("Nine Men's Morris");
@@ -113,7 +115,7 @@ public class NineMensMorrisFrame extends JFrame {
         leftPanel.setBackground(GRAY);
         rightPanel.setBackground(GRAY);
 
-        imageLabel = new JLabel(new ImageIcon("C:\\CS-5551-1\\board.png"));
+        imageLabel = new JLabel(new ImageIcon("src\\Production\\board.png"));//("C:\\CS-5551-1\\board.png"));
         centerPanel.add(imageLabel);
 
         //=====================GAME BOARD SETUP===================================
@@ -374,6 +376,10 @@ public class NineMensMorrisFrame extends JFrame {
         g7.setBounds(585,5,10,10);
         buttonsMap.put(g7, validSpots.EMPTY);
 
+        for (Map.Entry<JButton, validSpots> entry : buttonsMap.entrySet()) {
+            entry.getKey().setBackground(GRAY);
+        }
+
         Set<Map.Entry<JButton, validSpots>> entrySet = buttonsMap.entrySet();
         Iterator<Map.Entry<JButton, validSpots>> iterator = entrySet.iterator();
         while (iterator.hasNext()){
@@ -383,10 +389,11 @@ public class NineMensMorrisFrame extends JFrame {
 
             imageLabel.add(key);
 
+
             key.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (key.equals(g7)) {
+                    if (key.equals(g7) && value.equals(validSpots.EMPTY)) {
                         key.setBounds(580, 0, 20, 20);
                     }
                     if (key.equals(d7)){
@@ -459,34 +466,46 @@ public class NineMensMorrisFrame extends JFrame {
                         key.setBounds(115,465,20,20);
                     }
                     String current_turn = getCurrentTurn();
-                    if (Objects.equals(current_turn, "black")){
-                        key.setBackground(BLACK);
+                    if (Objects.equals(current_turn, "black") && value.equals(validSpots.EMPTY)){
+                        buttonsMap.replace(key, validSpots.EMPTY, validSpots.BLACK);
                         Integer numBlackPieces = getBlackPieces();
-                        if (numBlackPieces < 9){
-                            System.out.println("black < 9");
+
+                        if (key.getBackground() == GRAY && numBlackPieces < 9) {
+                            key.setBackground(BLACK);
+                            setCurrentTurn("white");
+                            getTurn().setText(getCurrentTurn());
                             setBlackPieces(numBlackPieces + 1);
                             getBlack_pieces().setText(Integer.toString(getBlackPieces()));
                         }
-                        setCurrentTurn("white");
-                        getTurn().setText(getCurrentTurn());
                     }
-                    if (Objects.equals(current_turn, "white")){
-                        key.setBackground(WHITE);
+                    if (Objects.equals(current_turn, "white") && value.equals(validSpots.EMPTY)){
+                        Color color = key.getBackground();
+
+                        buttonsMap.replace(key, validSpots.EMPTY, validSpots.WHITE);
                         Integer numWhitePieces = getWhitePieces();
-                        if(numWhitePieces < 9){
-                            System.out.println("white < 9: ");
+
+                        if (color == GRAY && numWhitePieces < 9) {
+                            key.setBackground(WHITE);
+                            setCurrentTurn("black");
+                            getTurn().setText(getCurrentTurn());
                             setWhitePieces(numWhitePieces + 1);
                             System.out.println(getWhitePieces());
                             getWhite_pieces().setText(Integer.toString(getWhitePieces()));
                         }
-                        setCurrentTurn("black");
-                        getTurn().setText(getCurrentTurn());
                     }
+
+                    System.out.println(buttonsMap.size());
+                    for (Map.Entry<JButton, validSpots> entry : buttonsMap.entrySet()) {
+                        System.out.println(entry.getKey().toString() + ": " + entry.getValue().toString());
+                    }
+
 
                 }
             });
         }//end while
     }
+
+
 
     public static void main(String[] args){
         NineMensMorrisFrame nineMensMorrisFrame = new NineMensMorrisFrame();
