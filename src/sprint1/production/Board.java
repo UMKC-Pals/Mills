@@ -1,5 +1,8 @@
 package sprint1.production;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,14 +18,19 @@ public class Board {
     RoundButton [] roundBtnArray;
     HashSet<TreeSet<Integer>> innerSquareMills, middleSquareMills, outerSquareMills, nmmMills, smmMills, twmmMills, tmmMills;
     TreeSet<Integer> line;
+
+
+    int[] y = {15,15,15,115,115,115,215,215,215,315,315,315,315,315,315,415,415,415,515,515,515,615,615,615, 315};
+    int[] x = {15,315,615,115,315,515,215,315,415,15,115,215,415,515,615,215,315,415,115,315,515,15,315,615, 315};
+
+    int dim1=10,dim2=20;
+
     public Board(int size) {
             edgeExists = new boolean[25][25];
             roundBtnArray = new RoundButton[25];
 
-            int[] y = {15,15,15,115,115,115,215,215,215,315,315,315,315,315,315,415,415,415,515,515,515,615,615,615, 315};
-            int[] x = {15,315,615,115,315,515,215,315,415,15,115,215,415,515,615,215,315,415,115,315,515,15,315,615, 315};
 
-            int dim1=10,dim2=20;
+
 //            Pair c1=new Pair<>(x1,y1);
 
 
@@ -32,6 +40,20 @@ public class Board {
                 roundBtnArray[i].setSize(10,10);
 
                 roundBtnArray[i].setBounds(285+x[i]-(dim1/2),y[i],dim1,dim1);
+                roundBtnArray[i].setBorder(BorderFactory.createEmptyBorder());
+
+//                roundBtnArray[i].setBounds(285+x[i],y[i],dim1,dim1);
+
+
+                int finalI = i;
+//                roundBtnArray[i].addActionListener(new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e){
+//
+//                        roundBtnArray[finalI].setBounds(285+x[finalI]-(dim2/2),y[finalI]-(dim1/2),dim2,dim2);
+//                        roundBtnArray[finalI].setBorder(BorderFactory.createEmptyBorder());
+//                    }
+//                });
 
             }
 

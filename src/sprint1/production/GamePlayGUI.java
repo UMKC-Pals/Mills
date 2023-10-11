@@ -10,11 +10,11 @@ public class GamePlayGUI extends JFrame{
     private JPanel rightPanel;
     private JPanel centerPanel;
     private JLabel imageLabel;
-    private JLabel whitePlayerCountLabel;
-    private JLabel blackPlayerCountLabel;
-    private JLabel currentTurn;
-    private JLabel buttonLabel; // Label for buttons
-    private JButton[] buttons; // Array of buttons
+    private static JLabel whitePlayerCountLabel;
+    private static JLabel blackPlayerCountLabel;
+    private static JLabel currentTurn;
+    private JLabel mediaButtonLabel; // Label for buttons
+    private JButton[] mediaButtons; // Array of buttons
     private JCheckBox recordButton; // Button for recording
     private JButton replayButton; // Button for replaying
 
@@ -24,6 +24,11 @@ public class GamePlayGUI extends JFrame{
     TwMMGame twmmGame;
 
     Game currentGame;
+
+    public static void updatePlayerCountLabels(){
+        whitePlayerCountLabel.setText("Player 1 (White) has : "+String.valueOf(Game.player1Count)+" men.");
+        blackPlayerCountLabel.setText("Player 2 (Black) has : "+String.valueOf(Game.player2Count)+" men.");
+    }
 
     public GamePlayGUI(int numberOfMen, boolean playAgainstComputer) {
 
@@ -92,8 +97,8 @@ public class GamePlayGUI extends JFrame{
         rightPanel.setVisible(true);
 
 //        Initializing counts for the players
-        whitePlayerCountLabel = new JLabel("Player 1 (White) has : "+String.valueOf(currentGame.player1Count)+" men.");
-        blackPlayerCountLabel = new JLabel("Player 2 (Black) has : "+String.valueOf(currentGame.player2Count)+" men.");
+        whitePlayerCountLabel = new JLabel("Player 1 (White) has : "+String.valueOf(Game.player1Count)+" men.");
+        blackPlayerCountLabel = new JLabel("Player 2 (Black) has : "+String.valueOf(Game.player2Count)+" men.");
 
         Font labelFont = new Font("SansSerif", Font.PLAIN, 12);
         whitePlayerCountLabel.setFont(labelFont);
@@ -111,29 +116,30 @@ public class GamePlayGUI extends JFrame{
         this.add(blackPlayerCountLabel);
 
 // Initializing current turn label
-        currentTurn = new JLabel("Current Turn :"+"White/black");
+        currentTurn = new JLabel("Current Turn : "+(Game.player1turn ?"Player 1":"Player 2"));
         currentTurn.setBounds(940,325,200,30);
 
         this.add(currentTurn);
 // buttons
         // Create and initialize an array of buttons
-        buttonLabel = new JLabel();
-        buttons = new JButton[5];
+        mediaButtonLabel = new JLabel();
+        mediaButtons = new JButton[5];
 
         int [] c = {0x23ee,0x23ea,0x23f5,0x23e9,0x23ed};
 
 
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = new JButton(Character.toString((char)c[i]));
-            buttons[i].setPreferredSize(new Dimension(40, 40)); // Adjust the size as needed
+        for (int i = 0; i < mediaButtons.length; i++) {
+            mediaButtons[i] = new JButton(Character.toString((char)c[i]));
+            mediaButtons[i].setFont(new Font("Arial", Font.PLAIN, 40));
+            mediaButtons[i].setPreferredSize(new Dimension(50, 50)); // Adjust the size as needed
 
-            buttonLabel.add(buttons[i]); // Add each button to the label
+            mediaButtonLabel.add(mediaButtons[i]); // Add each button to the label
         }
-        buttonLabel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+        mediaButtonLabel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
 
-        buttonLabel.setBounds(300, 680, 600, 50);
+        mediaButtonLabel.setBounds(300, 680, 600, 50);
 
-        this.add(buttonLabel);
+        this.add(mediaButtonLabel);
 
 // Record and replay buttons
         recordButton = new JCheckBox("Record");
@@ -179,5 +185,7 @@ public class GamePlayGUI extends JFrame{
     }
 
 
-
+    public static void updatePlayerTurnLabel() {
+        currentTurn.setText("Current Turn : "+(Game.player1turn ?"Player 1":"Player 2"));
+    }
 }
