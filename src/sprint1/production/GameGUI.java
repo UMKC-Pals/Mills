@@ -2,6 +2,8 @@ package sprint1.production;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameGUI {
     public static void main(String[] args) {
@@ -10,9 +12,10 @@ public class GameGUI {
         game.dirAndFileSetup();
 
         GameGUIFrame frame = new GameGUIFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(400,500);
         frame.setVisible(true);
+
 
 
 
@@ -47,6 +50,16 @@ class GameGUIFrame extends JFrame {
 
         chooseMenMorrisBtn.setBounds(150,300,100,30);
         chooseMenMorrisBtn.setSize(100,50);
+
+        chooseMenMorrisBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(comboBox.getSelectedItem().equals("9 Men's Morris")){
+                    NMMGameGUI nmmGameGUI=new NMMGameGUI();
+                }
+            }
+        });
+
         this.add(title);
         this.add(subtitle);
         this.add(comboBox);
