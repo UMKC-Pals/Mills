@@ -2,6 +2,7 @@ package sprint1.production;
 
 import javax.swing.*;
 import java.net.URL;
+import java.awt.*;
 
 public class GamePlayGUI extends JFrame{
 
@@ -9,8 +10,19 @@ public class GamePlayGUI extends JFrame{
     private JPanel rightPanel;
     private JPanel centerPanel;
     private JLabel imageLabel;
+    private JLabel whitePlayerCountLabel;
+    private JLabel blackPlayerCountLabel;
+
+    NMMGame nmmGame;
+    TMMGame tmmGame;
+    SMMGame smmGame;
+    TwMMGame twmmGame;
+
+    Game currentGame;
 
     public GamePlayGUI(int numberOfMen, boolean playAgainstComputer) {
+
+
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200,800);
@@ -19,24 +31,31 @@ public class GamePlayGUI extends JFrame{
         if(numberOfMen==9){
             this.setTitle("Mills - 9 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/nineBoardNoBg.png");
-            NMMGame nmmGame = new NMMGame(playAgainstComputer);
+            nmmGame = new NMMGame(playAgainstComputer);
+            currentGame=nmmGame;
         }
         if(numberOfMen==3){
             this.setTitle("Mills - 3 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/threeBoardNoBg.png");
-            TMMGame tmmGame = new TMMGame(playAgainstComputer);
+            tmmGame = new TMMGame(playAgainstComputer);
+            currentGame=tmmGame;
+
 
         }
         if(numberOfMen==6){
             this.setTitle("Mills - 6 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/sixBoardNoBg.png");
-            SMMGame smmGame = new SMMGame(playAgainstComputer);
+            smmGame = new SMMGame(playAgainstComputer);
+            currentGame=smmGame;
+
 
         }
         if(numberOfMen==12){
             this.setTitle("Mills - 12 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/twelveBoardNoBg.png");
-            TwMMGame twmmGame = new TwMMGame(playAgainstComputer);
+            twmmGame = new TwMMGame(playAgainstComputer);
+            currentGame=twmmGame;
+
 
         }
 
@@ -61,6 +80,31 @@ public class GamePlayGUI extends JFrame{
         rightPanel.setSize(285,800);
         rightPanel.setBounds(915,0,285,800);
         rightPanel.setVisible(true);
+
+//        Initializing counts for the players
+        whitePlayerCountLabel = new JLabel("Player 1 (White) has : "+String.valueOf(currentGame.player1Count)+" men.");
+        blackPlayerCountLabel = new JLabel("Player 2 (Black) has : "+String.valueOf(currentGame.player2Count)+" men.");
+
+        Font labelFont = new Font("SansSerif", Font.PLAIN, 12);
+        whitePlayerCountLabel.setFont(labelFont);
+        blackPlayerCountLabel.setFont(labelFont);
+
+// Set bounds for white player count label
+        whitePlayerCountLabel.setBounds(10, 320, 200, 30);
+
+        // Set bounds for black player count label
+        blackPlayerCountLabel.setBounds(10, 350, 200, 30);
+
+
+
+        this.add(whitePlayerCountLabel);
+        this.add(blackPlayerCountLabel);
+
+
+
+
+
+
 
         this.add(leftPanel);
         this.add(rightPanel);

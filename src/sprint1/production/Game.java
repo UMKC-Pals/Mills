@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 
 abstract class Game {
 
+    int player1Count=9, player2Count=9;
     public boolean dirAndFileSetup(){
 
      String homeDir= System.getProperty("user.home");
