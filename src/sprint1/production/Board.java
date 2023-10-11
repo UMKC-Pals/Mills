@@ -3,36 +3,45 @@ package sprint1.production;
 import java.util.HashSet;
 import java.util.TreeSet;
 
+
 public class Board {
-    enum cellValue{
-        WHITE,
-        BLACK,
-        EMPTY,
-        INVALID;
-
-    }
-
 //    in the board, there are 25 positions maximum,
 //    these 25 are represented as 0 to 24 in an array.
 //    with 0 to 23 linearly arranged from top-left to bottom right row wise.
 //    24 is the center vertex used in 3 mens morris.
 //
-
     boolean[][] edgeExists;
+    RoundButton [] roundBtnArray;
+    HashSet<TreeSet<Integer>> innerSquareMills, middleSquareMills, outerSquareMills, nmmMills, smmMills, twmmMills, tmmMills;
+    TreeSet<Integer> line;
     public Board(int size) {
             edgeExists = new boolean[25][25];
+            roundBtnArray = new RoundButton[25];
+            innerSquareMills = new HashSet<TreeSet<Integer>>();
+            middleSquareMills = new HashSet<TreeSet<Integer>>();
+            outerSquareMills = new HashSet<TreeSet<Integer>>();
+            nmmMills = new HashSet<TreeSet<Integer>>();
+            smmMills = new HashSet<TreeSet<Integer>>();
+            twmmMills = new HashSet<TreeSet<Integer>>();
+            tmmMills = new HashSet<TreeSet<Integer>>();
+            line=new TreeSet<Integer>();
 
+            if(size==3){
+            setupThreeBoard();
+            }
+            else if(size==6){
+            setupSixBoard();
+            }
+            else if(size==9){
+            setupNineBoard();
+            }
+            else if(size==12){
+            setupTwelveBoard();
+            }
+            else{
+                System.exit(1);
+            }
     }
-    TreeSet<Integer> line=new TreeSet<Integer>();
-
-    HashSet<TreeSet<Integer>> innerSquareMills = new HashSet<TreeSet<Integer>>();
-    HashSet<TreeSet<Integer>> middleSquareMills = new HashSet<TreeSet<Integer>>();
-    HashSet<TreeSet<Integer>> outerSquareMills = new HashSet<TreeSet<Integer>>();
-
-    HashSet<TreeSet<Integer>> nmmMills = new HashSet<TreeSet<Integer>>();
-    HashSet<TreeSet<Integer>> smmMills = new HashSet<TreeSet<Integer>>();
-    HashSet<TreeSet<Integer>> twmmMills = new HashSet<TreeSet<Integer>>();
-    HashSet<TreeSet<Integer>> tmmMills = new HashSet<TreeSet<Integer>>();
 
     protected void setEdgeExists(int a, int b){
         if (a >= 0 && a <= 24 && b>=0 && b<=24) {
