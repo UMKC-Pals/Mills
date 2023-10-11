@@ -12,6 +12,11 @@ public class GamePlayGUI extends JFrame{
     private JLabel imageLabel;
     private JLabel whitePlayerCountLabel;
     private JLabel blackPlayerCountLabel;
+    private JLabel currentTurn;
+    private JLabel buttonLabel; // Label for buttons
+    private JButton[] buttons; // Array of buttons
+    private JCheckBox recordButton; // Button for recording
+    private JButton replayButton; // Button for replaying
 
     NMMGame nmmGame;
     TMMGame tmmGame;
@@ -99,6 +104,47 @@ public class GamePlayGUI extends JFrame{
 
         this.add(whitePlayerCountLabel);
         this.add(blackPlayerCountLabel);
+
+// Initializing current turn label
+        currentTurn = new JLabel("Current Turn :"+"White/black");
+        currentTurn.setBounds(940,325,200,30);
+
+        this.add(currentTurn);
+// buttons
+        // Create and initialize an array of buttons
+        buttonLabel = new JLabel();
+        buttons = new JButton[5];
+
+        int [] c = {0x23ee,0x23ea,0x23f5,0x23e9,0x23ed};
+
+
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new JButton(Character.toString((char)c[i]));
+            buttons[i].setPreferredSize(new Dimension(40, 40)); // Adjust the size as needed
+
+            buttonLabel.add(buttons[i]); // Add each button to the label
+        }
+        buttonLabel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+
+        buttonLabel.setBounds(300, 680, 600, 50);
+
+        this.add(buttonLabel);
+
+// Record and replay buttons
+        recordButton = new JCheckBox("Record");
+        replayButton = new JButton("Replay");
+
+        recordButton.setBounds(10,660,80,40);
+        replayButton.setBounds(10,700,80,40);
+
+        this.add(recordButton);
+        this.add(replayButton);
+
+
+
+
+
+
 
 
 
