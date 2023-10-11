@@ -1,9 +1,20 @@
 package sprint1.production;
 
 public class NMMGame extends Game{
+    Board nmmBoard;
     public NMMGame(boolean playAgainstComputer) {
         dirAndFileSetup();
-        Board nmmBoard=new Board(9);
+        nmmBoard=new Board(9);
+
+        for(int i=0;i<=23;i++){
+            nmmBoard.roundBtnArray[i].currentState=buttonStates.EMPTY;
+            nmmBoard.roundBtnArray[i].setVisible(true);
+//            nmmBoard.roundBtnArray[i].paint();
+//            nmmBoard.roundBtnArray[i].paintBorder();
+        }
+
+
+
 
     }
 }
