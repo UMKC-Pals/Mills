@@ -28,11 +28,16 @@ public class GamePlayGUI extends JFrame{
         this.setSize(1200,800);
         URL imageUrl = null;
         ImageIcon imageIcon = null;
+
         if(numberOfMen==9){
             this.setTitle("Mills - 9 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/nineBoardNoBg.png");
             nmmGame = new NMMGame(playAgainstComputer);
             currentGame=nmmGame;
+
+            for(int i=0;i<25;i++){
+                this.add(nmmGame.nmmBoard.roundBtnArray[i]);
+            }
         }
         if(numberOfMen==3){
             this.setTitle("Mills - 3 Men's Morris Game - by Pals");
@@ -119,6 +124,8 @@ public class GamePlayGUI extends JFrame{
 
         imageLabel = new JLabel(imageIcon);
         centerPanel.add(imageLabel);
+
+
 
         this.setVisible(true);
 
