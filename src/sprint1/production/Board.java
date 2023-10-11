@@ -7,8 +7,9 @@ public class Board {
     enum cellValue{
         WHITE,
         BLACK,
-        INVALID,
-        EMPTY
+        EMPTY,
+        INVALID;
+
     }
 
 //    in the board, there are 25 positions maximum,
@@ -20,6 +21,7 @@ public class Board {
     boolean[][] edgeExists;
     public Board(int size) {
             edgeExists = new boolean[25][25];
+
     }
     TreeSet<Integer> line=new TreeSet<Integer>();
 
@@ -32,7 +34,13 @@ public class Board {
     HashSet<TreeSet<Integer>> twmmMills = new HashSet<TreeSet<Integer>>();
     HashSet<TreeSet<Integer>> tmmMills = new HashSet<TreeSet<Integer>>();
 
-    public void setUpInnerSquare() {
+    protected void setEdgeExists(int a, int b){
+        if (a >= 0 && a <= 24 && b>=0 && b<=24) {
+            edgeExists[a][b] = true;
+            edgeExists[b][a] = true;
+        }
+    }
+    protected void setUpInnerSquare() {
         line.clear();
 
         line.add(6);
@@ -59,29 +67,14 @@ public class Board {
         innerSquareMills.add(line);
         line.clear();
 
-        edgeExists[6][7] = true;
-        edgeExists[7][6] = true;
-
-        edgeExists[6][11] = true;
-        edgeExists[11][6] = true;
-
-        edgeExists[7][8] = true;
-        edgeExists[8][7] = true;
-
-        edgeExists[8][12] = true;
-        edgeExists[12][8] = true;
-
-        edgeExists[12][17] = true;
-        edgeExists[17][12] = true;
-
-        edgeExists[11][15] = true;
-        edgeExists[15][11] = true;
-
-        edgeExists[15][16] = true;
-        edgeExists[16][15] = true;
-
-        edgeExists[16][17] = true;
-        edgeExists[17][16] = true;
+        setEdgeExists(6,7);
+        setEdgeExists(6,11);
+        setEdgeExists(8,7);
+        setEdgeExists(12,8);
+        setEdgeExists(12,17);
+        setEdgeExists(11,15);
+        setEdgeExists(15,16);
+        setEdgeExists(16,17);
 
     }
     protected void setUpMiddleSquare() {
@@ -111,34 +104,17 @@ public class Board {
         middleSquareMills.add(line);
         line.clear();
 
-
-        edgeExists[3][4]=true;
-        edgeExists[4][3]=true;
-
-        edgeExists[3][10]=true;
-        edgeExists[10][3]=true;
-
-        edgeExists[4][5]=true;
-        edgeExists[5][4]=true;
-
-        edgeExists[5][13]=true;
-        edgeExists[13][5]=true;
-
-        edgeExists[10][18]=true;
-        edgeExists[18][10]=true;
-
-        edgeExists[18][19]=true;
-        edgeExists[19][18]=true;
-
-        edgeExists[13][20]=true;
-        edgeExists[20][13]=true;
-
-        edgeExists[19][20]=true;
-        edgeExists[20][19]=true;
-
+        setEdgeExists(3,4);
+        setEdgeExists(3,10);
+        setEdgeExists(5,4);
+        setEdgeExists(13,5);
+        setEdgeExists(10,18);
+        setEdgeExists(18,19);
+        setEdgeExists(13,20);
+        setEdgeExists(19,20);
 
     }
-    private void setUpOuterSquare() {
+    protected void setUpOuterSquare() {
         line.clear();
 
         line.add(0);
@@ -165,31 +141,14 @@ public class Board {
         outerSquareMills.add(line);
         line.clear();
 
-
-
-        edgeExists[0][1]=true;
-        edgeExists[1][0]=true;
-
-        edgeExists[1][2]=true;
-        edgeExists[2][1]=true;
-
-        edgeExists[2][14]=true;
-        edgeExists[14][2]=true;
-
-        edgeExists[14][23]=true;
-        edgeExists[23][14]=true;
-
-        edgeExists[0][9]=true;
-        edgeExists[9][0]=true;
-
-        edgeExists[9][21]=true;
-        edgeExists[21][9]=true;
-
-        edgeExists[21][22]=true;
-        edgeExists[22][21]=true;
-
-        edgeExists[22][23]=true;
-        edgeExists[23][22]=true;
+        setEdgeExists(1,0);
+        setEdgeExists(9,0);
+        setEdgeExists(1,2);
+        setEdgeExists(14,2);
+        setEdgeExists(14,23);
+        setEdgeExists(21,9);
+        setEdgeExists(21,22);
+        setEdgeExists(23,22);
 
     }
     protected void setupNineBoard(){
@@ -226,41 +185,23 @@ public class Board {
         nmmMills.add(line);
         line.clear();
 
-
-
-        edgeExists[1][4]=true;
-        edgeExists[4][1]=true;
-
-        edgeExists[9][10]=true;
-        edgeExists[10][9]=true;
-
-        edgeExists[13][14]=true;
-        edgeExists[14][13]=true;
-
-        edgeExists[19][22]=true;
-        edgeExists[22][19]=true;
-
-
+        setEdgeExists(1,4);
+        setEdgeExists(10,9);
+        setEdgeExists(13,14);
+        setEdgeExists(19,22);
 
     }
-    public void setupSixBoard() {
+    protected void setupSixBoard() {
         setUpInnerSquare();
         setUpMiddleSquare();
 
         smmMills.addAll(middleSquareMills);
         smmMills.addAll(innerSquareMills);
 
-        edgeExists[4][7]=true;
-        edgeExists[7][4]=true;
-
-        edgeExists[10][11]=true;
-        edgeExists[11][10]=true;
-
-        edgeExists[12][13]=true;
-        edgeExists[13][12]=true;
-
-        edgeExists[16][19]=true;
-        edgeExists[19][16]=true;
+        setEdgeExists(7,4);
+        setEdgeExists(10,11);
+        setEdgeExists(12,13);
+        setEdgeExists(16,19);
 
     }
     protected void setupTwelveBoard(){
@@ -295,35 +236,16 @@ public class Board {
         twmmMills.add(line);
         line.clear();
 
-
-        edgeExists[0][3]=true;
-        edgeExists[3][0]=true;
-
-        edgeExists[3][6]=true;
-        edgeExists[6][3]=true;
-
-        edgeExists[2][5]=true;
-        edgeExists[5][2]=true;
-
-        edgeExists[5][8]=true;
-        edgeExists[8][5]=true;
-
-        edgeExists[15][18]=true;
-        edgeExists[18][15]=true;
-
-        edgeExists[18][21]=true;
-        edgeExists[21][18]=true;
-
-        edgeExists[17][20]=true;
-        edgeExists[20][17]=true;
-
-        edgeExists[20][23]=true;
-        edgeExists[23][20]=true;
-
-
-
+        setEdgeExists(0,3);
+        setEdgeExists(3,6);
+        setEdgeExists(5,2);
+        setEdgeExists(8,5);
+        setEdgeExists(18,15);
+        setEdgeExists(18,21);
+        setEdgeExists(20,17);
+        setEdgeExists(20,23);
     }
-    public void setupThreeBoard(){
+    protected void setupThreeBoard(){
 
         setUpInnerSquare();
 
@@ -355,30 +277,14 @@ public class Board {
         tmmMills.add(line);
         line.clear();
 
-
-        edgeExists[24][6]=true;
-        edgeExists[6][24]=true;
-
-        edgeExists[24][7]=true;
-        edgeExists[7][24]=true;
-
-        edgeExists[24][8]=true;
-        edgeExists[8][24]=true;
-
-        edgeExists[24][11]=true;
-        edgeExists[11][24]=true;
-
-        edgeExists[24][12]=true;
-        edgeExists[12][24]=true;
-
-        edgeExists[24][15]=true;
-        edgeExists[15][24]=true;
-
-        edgeExists[24][16]=true;
-        edgeExists[16][24]=true;
-
-        edgeExists[24][17]=true;
-        edgeExists[17][24]=true;
+        setEdgeExists(24,6);
+        setEdgeExists(7,24);
+        setEdgeExists(8,24);
+        setEdgeExists(11,24);
+        setEdgeExists(12,24);
+        setEdgeExists(15,24);
+        setEdgeExists(16,24);
+        setEdgeExists(17,24);
 
     }
 

@@ -19,18 +19,25 @@ public class GamePlayGUI extends JFrame{
         if(numberOfMen==9){
             this.setTitle("Mills - 9 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/nineBoardNoBg.png");
+            NMMGame nmmGame = new NMMGame(playAgainstComputer);
         }
         if(numberOfMen==3){
             this.setTitle("Mills - 3 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/threeBoardNoBg.png");
+            TMMGame tmmGame = new TMMGame(playAgainstComputer);
+
         }
         if(numberOfMen==6){
             this.setTitle("Mills - 6 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/sixBoardNoBg.png");
+            SMMGame smmGame = new SMMGame(playAgainstComputer);
+
         }
         if(numberOfMen==12){
             this.setTitle("Mills - 12 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/twelveBoardNoBg.png");
+            TwMMGame twmmGame = new TwMMGame(playAgainstComputer);
+
         }
 
         this.setResizable(false);
