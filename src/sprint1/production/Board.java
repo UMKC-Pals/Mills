@@ -120,4 +120,20 @@ public class Board {
         edgeExists[23][22]=true;
 
     }
+
+    public void setupSixBoard() {
+        edgeExists[0][1]=true;
+        edgeExists[1][0]=true;
+    }
+    public void setupTwelveBoard(){
+        edgeExists[0][1]=true;
+        edgeExists[1][0]=true;
+    }
+    public void setupThreeBoard(){
+        edgeExists[0][1]=true;
+        edgeExists[1][0]=true;
+    }
+
+
+
 }

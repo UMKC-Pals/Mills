@@ -14,10 +14,12 @@ public class GameGUI {
         GameGUIFrame frame = new GameGUIFrame();
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(400,500);
+        frame.setLocationRelativeTo(null); // to display the JFrame centered to the screen
+        frame.setTitle("Mills Game - by Pals");
         frame.setVisible(true);
 
 
-
+        frame.setResizable(false);
 
     }
 
@@ -56,6 +58,15 @@ class GameGUIFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(comboBox.getSelectedItem().equals("9 Men's Morris")){
                     NMMGameGUI nmmGameGUI=new NMMGameGUI();
+                }
+                if(comboBox.getSelectedItem().equals("6 Men's Morris")){
+                    SMMGameGUI smmGameGUI=new SMMGameGUI();
+                }
+                if(comboBox.getSelectedItem().equals("12 Men's Morris")){
+                    TwMMGameGUI twmmGameGUI=new TwMMGameGUI();
+                }
+                if(comboBox.getSelectedItem().equals("3 Men's Morris")){
+                    TMMGameGUI tmmGameGUI=new TMMGameGUI();
                 }
             }
         });
