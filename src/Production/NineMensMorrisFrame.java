@@ -91,6 +91,8 @@ public class NineMensMorrisFrame extends JFrame {
 
     private JLabel imageLabel;
 
+    private Integer blackPiecesOnBoard, whitePiecesOnBoard;
+
 
 
     public NineMensMorrisFrame(){
@@ -380,6 +382,8 @@ public class NineMensMorrisFrame extends JFrame {
             entry.getKey().setBackground(GRAY);
         }
 
+
+
         Set<Map.Entry<JButton, validSpots>> entrySet = buttonsMap.entrySet();
         Iterator<Map.Entry<JButton, validSpots>> iterator = entrySet.iterator();
         while (iterator.hasNext()){
@@ -393,107 +397,109 @@ public class NineMensMorrisFrame extends JFrame {
             key.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (key.equals(g7) && value.equals(validSpots.EMPTY)) {
-                        key.setBounds(580, 0, 20, 20);
-                    }
-                    if (key.equals(d7)){
-                        key.setBounds(290,0,20,20);
-                    }
-                    if (key.equals(f6)){
-                        key.setBounds(465,115,20,20);
-                    }
-                    if (key.equals(d6)){
-                        key.setBounds(290,115,20,20);
-                    }
-                    if (key.equals(e5)){
-                        key.setBounds(350,230,20,20);
-                    }
-                    if (key.equals(d5)){
-                        key.setBounds(290,230,20,20);
-                    }
-                    if (key.equals(c5)){
-                        key.setBounds(230,230,20,20);
-                    }
-                    if (key.equals(b5)){
-                        key.setBounds(115,115,20,20);
-                    }
-                    if (key.equals(a7)){
-                        key.setBounds(0,0,20,20);
-                    }
-                    if (key.equals(g4)){
-                        key.setBounds(580,290,20,20);
-                    }
-                    if (key.equals(f4)){
-                        key.setBounds(465,290,20,20);
-                    }
-                    if (key.equals(e4)){
-                        key.setBounds(350,290,20,20);
-                    }
-                    if (key.equals(c4)){
-                        key.setBounds(230,290,20,20);
-                    }
-                    if (key.equals(b4)){
-                        key.setBounds(115,290,20,20);
-                    }
-                    if (key.equals(a4)){
-                        key.setBounds(0,290,20,20);
-                    }
-                    if (key.equals(c3)){
-                        key.setBounds(230,350,20,20);
-                    }
-                    if (key.equals(e3)){
-                        key.setBounds(350,350,20,20);
-                    }
-                    if (key.equals(d3)){
-                        key.setBounds(290,350,20,20);
-                    }
-                    if (key.equals(f2)){
-                        key.setBounds(465,465,20,20);
-                    }
-                    if (key.equals(d2)){
-                        key.setBounds(290,465,20,20);
-                    }
-                    if (key.equals(g1)){
-                        key.setBounds(580,580,20,20);
-                    }
-                    if (key.equals(d1)){
-                        key.setBounds(290,580,20,20);
-                    }
-                    if (key.equals(a1)){
-                        key.setBounds(0,580,20,20);
-                    }
-                    if (key.equals(b2)){
-                        key.setBounds(115,465,20,20);
-                    }
-                    String current_turn = getCurrentTurn();
-                    if (Objects.equals(current_turn, "black") && value.equals(validSpots.EMPTY)){
-                        buttonsMap.replace(key, validSpots.EMPTY, validSpots.BLACK);
-                        Integer numBlackPieces = getBlackPieces();
-
-                        if (key.getBackground() == GRAY && numBlackPieces < 9) {
-                            key.setBackground(BLACK);
-                            setCurrentTurn("white");
-                            getTurn().setText(getCurrentTurn());
-                            setBlackPieces(numBlackPieces + 1);
-                            getBlack_pieces().setText(Integer.toString(getBlackPieces()));
+                    if (blackPieces < 9 || whitePieces < 9) {
+                        if (key.equals(g7)) {
+                            key.setBounds(580, 0, 20, 20);
+                        }
+                        if (key.equals(d7)) {
+                            key.setBounds(290, 0, 20, 20);
+                        }
+                        if (key.equals(f6)) {
+                            key.setBounds(465, 115, 20, 20);
+                        }
+                        if (key.equals(d6)) {
+                            key.setBounds(290, 115, 20, 20);
+                        }
+                        if (key.equals(e5)) {
+                            key.setBounds(350, 230, 20, 20);
+                        }
+                        if (key.equals(d5)) {
+                            key.setBounds(290, 230, 20, 20);
+                        }
+                        if (key.equals(c5)) {
+                            key.setBounds(230, 230, 20, 20);
+                        }
+                        if (key.equals(b5)) {
+                            key.setBounds(115, 115, 20, 20);
+                        }
+                        if (key.equals(a7)) {
+                            key.setBounds(0, 0, 20, 20);
+                        }
+                        if (key.equals(g4)) {
+                            key.setBounds(580, 290, 20, 20);
+                        }
+                        if (key.equals(f4)) {
+                            key.setBounds(465, 290, 20, 20);
+                        }
+                        if (key.equals(e4)) {
+                            key.setBounds(350, 290, 20, 20);
+                        }
+                        if (key.equals(c4)) {
+                            key.setBounds(230, 290, 20, 20);
+                        }
+                        if (key.equals(b4)) {
+                            key.setBounds(115, 290, 20, 20);
+                        }
+                        if (key.equals(a4)) {
+                            key.setBounds(0, 290, 20, 20);
+                        }
+                        if (key.equals(c3)) {
+                            key.setBounds(230, 350, 20, 20);
+                        }
+                        if (key.equals(e3)) {
+                            key.setBounds(350, 350, 20, 20);
+                        }
+                        if (key.equals(d3)) {
+                            key.setBounds(290, 350, 20, 20);
+                        }
+                        if (key.equals(f2)) {
+                            key.setBounds(465, 465, 20, 20);
+                        }
+                        if (key.equals(d2)) {
+                            key.setBounds(290, 465, 20, 20);
+                        }
+                        if (key.equals(g1)) {
+                            key.setBounds(580, 580, 20, 20);
+                        }
+                        if (key.equals(d1)) {
+                            key.setBounds(290, 580, 20, 20);
+                        }
+                        if (key.equals(a1)) {
+                            key.setBounds(0, 580, 20, 20);
+                        }
+                        if (key.equals(b2)) {
+                            key.setBounds(115, 465, 20, 20);
                         }
                     }
-                    if (Objects.equals(current_turn, "white") && value.equals(validSpots.EMPTY)){
-                        Color color = key.getBackground();
+                    //while (blackPieces == 9 && whitePieces == 9) {
+                        String current_turn = getCurrentTurn();
+                        if (Objects.equals(current_turn, "black") && value.equals(validSpots.EMPTY)) {
+                            buttonsMap.replace(key, validSpots.EMPTY, validSpots.BLACK);
+                            Integer numBlackPieces = getBlackPieces();
 
-                        buttonsMap.replace(key, validSpots.EMPTY, validSpots.WHITE);
-                        Integer numWhitePieces = getWhitePieces();
+                            if (key.getBackground() == GRAY && numBlackPieces < 9) {
+                                key.setBackground(BLACK);
+                                setCurrentTurn("white");
+                                getTurn().setText(getCurrentTurn());
+                                setBlackPieces(numBlackPieces + 1);
+                                getBlack_pieces().setText(Integer.toString(getBlackPieces()));
+                            }
+                        } else if (Objects.equals(current_turn, "white") && value.equals(validSpots.EMPTY)) {
+                            Color color = key.getBackground();
 
-                        if (color == GRAY && numWhitePieces < 9) {
-                            key.setBackground(WHITE);
-                            setCurrentTurn("black");
-                            getTurn().setText(getCurrentTurn());
-                            setWhitePieces(numWhitePieces + 1);
-                            System.out.println(getWhitePieces());
-                            getWhite_pieces().setText(Integer.toString(getWhitePieces()));
+                            buttonsMap.replace(key, validSpots.EMPTY, validSpots.WHITE);
+                            Integer numWhitePieces = getWhitePieces();
+
+                            if (color == GRAY && numWhitePieces < 9) {
+                                key.setBackground(WHITE);
+                                setCurrentTurn("black");
+                                getTurn().setText(getCurrentTurn());
+                                setWhitePieces(numWhitePieces + 1);
+                                System.out.println(getWhitePieces());
+                                getWhite_pieces().setText(Integer.toString(getWhitePieces()));
+                            }
                         }
-                    }
-
+                   // }
                     System.out.println(buttonsMap.size());
                     for (Map.Entry<JButton, validSpots> entry : buttonsMap.entrySet()) {
                         System.out.println(entry.getKey().toString() + ": " + entry.getValue().toString());
