@@ -1,8 +1,14 @@
 package sprint1.production;
 
 public class NMMGame extends Game{
+
     Board nmmBoard;
     public NMMGame(boolean playAgainstComputer) {
+
+        this.player1Count=9;
+        this.player2Count=9;
+
+
         dirAndFileSetup();
         nmmBoard=new Board(9);
 
