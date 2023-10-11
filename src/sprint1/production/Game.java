@@ -7,9 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Game {
+abstract class Game {
 
- public boolean dirAndFileSetup(){
+    public boolean dirAndFileSetup(){
 
      String homeDir= System.getProperty("user.home");
      Path gameDirPath= Paths.get(homeDir,"MillsData");
@@ -76,8 +76,6 @@ public class Game {
      }
     return true;
  }
-
-
 
 }
 

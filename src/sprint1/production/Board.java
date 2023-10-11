@@ -9,15 +9,9 @@ public class Board {
     }
     boolean[][] edgeExists;
     public Board(int size) {
-        if(size==9 || size==12) { //nine mens
-            edgeExists = new boolean[24][24];
-        }
-        if(size==6){
-            edgeExists = new boolean[16][16];
-        }
-        if(size==3){
-            edgeExists = new boolean[9][9];
-        }
+
+            edgeExists = new boolean[25][25];
+
     }
     public void setupNineBoard(){
 
