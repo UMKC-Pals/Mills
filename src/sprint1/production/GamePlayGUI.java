@@ -63,14 +63,12 @@ public class GamePlayGUI extends JFrame{
             smmGame = new SMMGame(playAgainstComputer);
             currentGame=smmGame;
 
-
         }
         if(numberOfMen==12){
             this.setTitle("Mills - 12 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/twelveBoardNoBg.png");
             twmmGame = new TwMMGame(playAgainstComputer);
             currentGame=twmmGame;
-
 
         }
 
@@ -110,8 +108,6 @@ public class GamePlayGUI extends JFrame{
         // Set bounds for black player count label
         blackPlayerCountLabel.setBounds(10, 350, 200, 30);
 
-
-
         this.add(whitePlayerCountLabel);
         this.add(blackPlayerCountLabel);
 
@@ -126,7 +122,6 @@ public class GamePlayGUI extends JFrame{
         mediaButtons = new JButton[5];
 
         int [] c = {0x23ee,0x23ea,0x23f5,0x23e9,0x23ed};
-
 
         for (int i = 0; i < mediaButtons.length; i++) {
             mediaButtons[i] = new JButton(Character.toString((char)c[i]));
@@ -150,17 +145,6 @@ public class GamePlayGUI extends JFrame{
 
         this.add(recordButton);
         this.add(replayButton);
-
-
-
-
-
-
-
-
-
-
-
 
 
         this.add(leftPanel);

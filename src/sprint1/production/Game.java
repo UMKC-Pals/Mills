@@ -22,9 +22,6 @@ abstract class Game {
         return true;
     }
 
-//    static void swapTurn(){
-//        player1turn=!player1turn;
-//    }
 
     static boolean reducePlayer2count(){
         if(player2Count>=1){

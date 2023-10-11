@@ -30,10 +30,6 @@ public class Board {
             roundBtnArray = new RoundButton[25];
 
 
-
-//            Pair c1=new Pair<>(x1,y1);
-
-
             for(int i=0;i<25;i++){
                 roundBtnArray[i] = new RoundButton("");
                 roundBtnArray[i].currentState=buttonStates.INVALID;
@@ -41,20 +37,6 @@ public class Board {
 
                 roundBtnArray[i].setBounds(285+x[i]-(dim1/2),y[i],dim1,dim1);
                 roundBtnArray[i].setBorder(BorderFactory.createEmptyBorder());
-
-//                roundBtnArray[i].setBounds(285+x[i],y[i],dim1,dim1);
-
-
-                int finalI = i;
-//                roundBtnArray[i].addActionListener(new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e){
-//
-//                        roundBtnArray[finalI].setBounds(285+x[finalI]-(dim2/2),y[finalI]-(dim1/2),dim2,dim2);
-//                        roundBtnArray[finalI].setBorder(BorderFactory.createEmptyBorder());
-//                    }
-//                });
-
             }
 
 
