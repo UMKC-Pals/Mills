@@ -1,6 +1,6 @@
 package sprint1.production;
 
-public class TwMMGame {
+public class TwMMGameGUI {
     Board twelveMenMorrisBoard=new Board(12);
 
 }
