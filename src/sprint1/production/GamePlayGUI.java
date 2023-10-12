@@ -1,6 +1,8 @@
 package sprint1.production;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.awt.*;
 
@@ -17,6 +19,8 @@ public class GamePlayGUI extends JFrame{
     private JButton[] mediaButtons; // Array of buttons
     private JCheckBox recordButton; // Button for recording
     private JButton replayButton; // Button for replaying
+    private JButton newGameButton;
+
 
     NMMGame nmmGame;
     TMMGame tmmGame;
@@ -32,8 +36,6 @@ public class GamePlayGUI extends JFrame{
     }
 
     public GamePlayGUI(int numberOfMen, boolean playAgainstComputer, boolean player1IsWhite) {
-
-
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1200,800);
@@ -146,6 +148,21 @@ public class GamePlayGUI extends JFrame{
 
         this.add(recordButton);
         this.add(replayButton);
+
+        GamePlayGUI thisGameplayGUI=this;
+
+// New game
+        newGameButton= new JButton("New Game");
+        newGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                 thisGameplayGUI.setVisible(false);
+//                 new GameGUI();
+
+            }
+        });
+        newGameButton.setBounds(20,20,100,30);
+        this.add(newGameButton);
 
 
         this.add(leftPanel);
