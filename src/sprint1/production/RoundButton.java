@@ -11,18 +11,12 @@ enum buttonStates{
 }
 
 public class RoundButton extends JButton {
-
-
-
-
-
     buttonStates currentState=buttonStates.INVALID;
     public RoundButton(String text) {
         super(text);
         setContentAreaFilled(false);
 
     }
-
     @Override
     protected void paintComponent(Graphics g) {
 

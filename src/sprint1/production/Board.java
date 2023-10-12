@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-
 public class Board {
 //    in the board, there are 25 positions maximum,
 //    these 25 are represented as 0 to 24 in an array.
@@ -18,8 +17,6 @@ public class Board {
     RoundButton [] roundBtnArray;
     HashSet<TreeSet<Integer>> innerSquareMills, middleSquareMills, outerSquareMills, nmmMills, smmMills, twmmMills, tmmMills;
     TreeSet<Integer> line;
-
-
     int[] y = {15,15,15,115,115,115,215,215,215,315,315,315,315,315,315,415,415,415,515,515,515,615,615,615, 315};
     int[] x = {15,315,615,115,315,515,215,315,415,15,115,215,415,515,615,215,315,415,115,315,515,15,315,615, 315};
 
@@ -38,8 +35,6 @@ public class Board {
                 roundBtnArray[i].setBounds(285+x[i]-(dim1/2),y[i],dim1,dim1);
                 roundBtnArray[i].setBorder(BorderFactory.createEmptyBorder());
             }
-
-
 
             innerSquareMills = new HashSet<TreeSet<Integer>>();
             middleSquareMills = new HashSet<TreeSet<Integer>>();

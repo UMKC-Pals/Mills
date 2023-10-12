@@ -179,14 +179,8 @@ public class GamePlayGUI extends JFrame{
         imageLabel = new JLabel(imageIcon);
         centerPanel.add(imageLabel);
 
-
-
         this.setVisible(true);
-
-
     }
-
-
     public static void updatePlayerTurnLabel() {
         currentTurn.setText("Current Turn : "+(Game.player1turn ?"Player 1":"Player 2"));
     }
