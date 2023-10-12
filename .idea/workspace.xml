@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="492c2536-5f04-49eb-80bf-087ff0373439" name="Changes" comment="nineMens setup">
-      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/Board.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/Game.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/GameGUI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/NMMGame.class" beforeDir="false" />
+    <list default="true" id="492c2536-5f04-49eb-80bf-087ff0373439" name="Changes" comment="cleared blank lines">
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mills.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/Board.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/GamePlayGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/GamePlayGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/GameSetupGUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/GameSetupGUI$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/GameSetupGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/GameSetupGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/NMMGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/NMMGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/RoundButton.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/RoundButton.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/SMMGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/SMMGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/TMMGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/TMMGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/TwMMGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/TwMMGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/sprint1/production/buttonStates.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/sprint1/production/buttonStates.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +94,9 @@
     &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;vishal&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;20&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/vishaldhatrika/ASE Assignments/Mills/src/sprint1/production&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -105,37 +117,16 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.GameGUI">
-    <configuration name="Game" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="sprint1.production.Game" />
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="sprint1.production.GameSetupGUI" />
       <module name="Mills" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="sprint1.production.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="sprint1.production.GameGUI" />
-      <module name="Mills" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="sprint1.production.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GameGUI" />
-        <item itemvalue="Application.Game" />
         <item itemvalue="Application.GameGUI" />
       </list>
     </recent_temporary>
@@ -237,7 +228,23 @@
       <option name="project" value="LOCAL" />
       <updated>1696999385383</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="choose player1 color">
+      <option name="closed" value="true" />
+      <created>1697078575394</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1697078575394</updated>
+    </task>
+    <task id="LOCAL-00011" summary="cleared blank lines">
+      <option name="closed" value="true" />
+      <created>1697086180303</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1697086180303</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -266,6 +273,9 @@
     <MESSAGE value="updates" />
     <MESSAGE value="updates2" />
     <MESSAGE value="nineMens setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="nineMens setup" />
+    <MESSAGE value="." />
+    <MESSAGE value="choose player1 color" />
+    <MESSAGE value="cleared blank lines" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleared blank lines" />
   </component>
 </project>
