@@ -23,10 +23,18 @@ class GameSetupGUI extends JFrame {
         ButtonGroup playVersusButtonGroup = new ButtonGroup();
         JRadioButton HvHradioBtn = new JRadioButton("Human vs. Human");
         JRadioButton HvCradioBtn = new JRadioButton("Human vs. Computer");
+
         playVersusButtonGroup.add(HvHradioBtn);
         playVersusButtonGroup.add(HvCradioBtn);
         HvHradioBtn.setSelected(true);
 
+        ButtonGroup player1ColorButtonGroup = new ButtonGroup();
+        JRadioButton player1WhiteRadioBtn = new JRadioButton("Player 1 uses White");
+        JRadioButton player1BlackRadioBtn = new JRadioButton("Player 1 uses Black");
+
+        player1ColorButtonGroup.add(player1WhiteRadioBtn);
+        player1ColorButtonGroup.add(player1BlackRadioBtn);
+        player1WhiteRadioBtn.setSelected(true);
 
         playAgainstComputer = false;
 
@@ -54,8 +62,11 @@ class GameSetupGUI extends JFrame {
 
         numberOfMenComboBox.setBounds(50,240,300,20);
 
-        HvHradioBtn.setBounds(10,300,380,20);
-        HvCradioBtn.setBounds(10,320,380,20);
+        HvHradioBtn.setBounds(10,300,180,20);
+        HvCradioBtn.setBounds(10,320,180,20);
+
+        player1WhiteRadioBtn.setBounds(200,300,180,20);
+        player1BlackRadioBtn.setBounds(200,320,180,20);
 
 
         chooseMenMorrisBtn.setBounds(150,360,100,30);
@@ -75,16 +86,16 @@ class GameSetupGUI extends JFrame {
                 }
 
                 if(numberOfMenComboBox.getSelectedItem().equals("9 Men's Morris")){
-                    GamePlayGUI nmmGameGUI=new GamePlayGUI(9,playAgainstComputer);
+                    GamePlayGUI nmmGameGUI=new GamePlayGUI(9,playAgainstComputer, player1WhiteRadioBtn.isSelected());
                 }
                 if(numberOfMenComboBox.getSelectedItem().equals("6 Men's Morris")){
-                    GamePlayGUI smmGameGUI=new GamePlayGUI(6,playAgainstComputer);
+                    GamePlayGUI smmGameGUI=new GamePlayGUI(6,playAgainstComputer, player1WhiteRadioBtn.isSelected());
                 }
                 if(numberOfMenComboBox.getSelectedItem().equals("12 Men's Morris")){
-                    GamePlayGUI twmmGameGUI=new GamePlayGUI(12,playAgainstComputer);
+                    GamePlayGUI twmmGameGUI=new GamePlayGUI(12,playAgainstComputer, player1WhiteRadioBtn.isSelected());
                 }
                 if(numberOfMenComboBox.getSelectedItem().equals("3 Men's Morris")){
-                    GamePlayGUI tmmGameGUI=new GamePlayGUI(3,playAgainstComputer);
+                    GamePlayGUI tmmGameGUI=new GamePlayGUI(3,playAgainstComputer, player1WhiteRadioBtn.isSelected());
                 }
             }
 
@@ -93,10 +104,15 @@ class GameSetupGUI extends JFrame {
 
         this.add(title);
         this.add(subtitle);
+
         this.add(numberOfMenComboBox);
         this.add(chooseMenMorrisBtn);
+
         this.add(HvHradioBtn);
         this.add(HvCradioBtn);
+
+        this.add(player1BlackRadioBtn);
+        this.add(player1WhiteRadioBtn);
 
         this.setLayout(null);
 

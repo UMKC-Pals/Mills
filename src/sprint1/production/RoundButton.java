@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 enum buttonStates{
-    WHITE,
-    BLACK,
+    PLAYER1,
+    PLAYER2,
     EMPTY,
     INVALID;
 }
