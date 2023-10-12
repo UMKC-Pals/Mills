@@ -42,6 +42,7 @@ public class NMMGame extends Game{
                     if(nmmBoard.roundBtnArray[j].currentState==buttonStates.EMPTY){
 
                         if(Game.player1turn && Game.reducePlayer1count()){
+                            nmmBoard.roundBtnArray[j].currentState=buttonStates.WHITE;
                             nmmBoard.roundBtnArray[j].setBackground(new Color(221,186,126));
                             Game.player1turn=false;
                             nmmBoard.roundBtnArray[j].setBounds(285 + nmmBoard.x[j] - (nmmBoard.dim2 / 2), nmmBoard.y[j] - (nmmBoard.dim1 / 2), nmmBoard.dim2, nmmBoard.dim2);
@@ -51,6 +52,8 @@ public class NMMGame extends Game{
 
                         }
                         else if(!NMMGame.player1turn && Game.reducePlayer2count()){
+                            nmmBoard.roundBtnArray[j].currentState=buttonStates.BLACK;
+
                             nmmBoard.roundBtnArray[j].setBackground(new Color(0,0,0));
                             Game.player1turn=true;
                             nmmBoard.roundBtnArray[j].setBounds(285 + nmmBoard.x[j] - (nmmBoard.dim2 / 2), nmmBoard.y[j] - (nmmBoard.dim1 / 2), nmmBoard.dim2, nmmBoard.dim2);
