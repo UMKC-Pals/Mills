@@ -20,7 +20,7 @@ Mills is the name of our project for Nine Men's Morris game, which is going to b
 ||  
 
 ||--src  
-||----sprint1 (package)  
+||----sprint2 (package)  
 ||------production (sub-package)  
 ||----------production code classes for GUI and logic  
 ||------test (sub-package)  

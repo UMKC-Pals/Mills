@@ -1,10 +1,7 @@
-package sprint1.production;
+package sprint2.production;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.TreeSet;
 
 public class Board {

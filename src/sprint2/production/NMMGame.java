@@ -1,11 +1,9 @@
-package sprint1.production;
+package sprint2.production;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static java.lang.System.out;
 
 public class NMMGame extends Game{
     Board nmmBoard;
@@ -21,8 +19,8 @@ public class NMMGame extends Game{
              player2Color=new Color(221,186,126);
         }
 
-        Game.player1Count=9;
-        Game.player2Count=9;
+        Game.setPlayer1Count(9);
+        Game.setPlayer2Count(9);
 
         this.dirAndFileSetup();
 

@@ -1,4 +1,4 @@
-package sprint1.production;
+package sprint2.production;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,8 +30,8 @@ public class GamePlayGUI extends JFrame{
     Game currentGame;
 
     public static void updatePlayerCountLabels(boolean player1IsWhite){
-        whitePlayerCountLabel.setText("Player 1 "+(player1IsWhite?"(White)":"(Black)")+" has : "+String.valueOf(Game.player1Count)+" men.");
-        blackPlayerCountLabel.setText("Player 2 "+(player1IsWhite?"(Black)":"(White)")+" has : "+String.valueOf(Game.player2Count)+" men.");
+        whitePlayerCountLabel.setText("Player 1 "+(player1IsWhite?"(White)":"(Black)")+" has : "+String.valueOf(Game.getPlayer1Count())+" men.");
+        blackPlayerCountLabel.setText("Player 2 "+(player1IsWhite?"(Black)":"(White)")+" has : "+String.valueOf(Game.getPlayer2Count())+" men.");
 
     }
 
@@ -98,8 +98,8 @@ public class GamePlayGUI extends JFrame{
         rightPanel.setVisible(true);
 
 //        Initializing counts for the players
-        whitePlayerCountLabel = new JLabel("Player 1 "+(player1IsWhite?"(White)":"(Black)")+" has : "+String.valueOf(Game.player1Count)+" men.");
-        blackPlayerCountLabel = new JLabel("Player 2 "+(player1IsWhite?"(Black)":"(White)")+" has : "+String.valueOf(Game.player2Count)+" men.");
+        whitePlayerCountLabel = new JLabel("Player 1 "+(player1IsWhite?"(White)":"(Black)")+" has : "+String.valueOf(Game.getPlayer1Count())+" men.");
+        blackPlayerCountLabel = new JLabel("Player 2 "+(player1IsWhite?"(Black)":"(White)")+" has : "+String.valueOf(Game.getPlayer2Count())+" men.");
 
         Font labelFont = new Font("SansSerif", Font.PLAIN, 12);
         whitePlayerCountLabel.setFont(labelFont);

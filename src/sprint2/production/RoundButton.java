@@ -1,4 +1,4 @@
-package sprint1.production;
+package sprint2.production;
 
 import javax.swing.*;
 import java.awt.*;

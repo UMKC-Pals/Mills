@@ -1,6 +1,5 @@
-package sprint1.production;
+package sprint2.production;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,11 +7,36 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-abstract class Game {
+public abstract class Game {
 
-    static int player1Count=0, player2Count=0;
+    public static void setPlayer1Count(int player1Count) {
+        Game.player1Count = player1Count;
+    }
+
+    public static void setPlayer2Count(int player2Count) {
+        Game.player2Count = player2Count;
+    }
+
+    public static void setPlayer1turn(boolean player1turn) {
+        Game.player1turn = player1turn;
+    }
+
+    public static int getPlayer1Count() {
+        return player1Count;
+    }
+
+    public static int getPlayer2Count() {
+        return player2Count;
+    }
+
+    public static boolean isPlayer1turn() {
+        return player1turn;
+    }
+
+    private static int player1Count=0;
+    private static int player2Count=0;
     static boolean player1turn=true;
-    static boolean reducePlayer1count(){
+    public static boolean reducePlayer1count(){
         if(player1Count>=1){
             player1Count=player1Count-1;
         }
@@ -23,7 +47,7 @@ abstract class Game {
     }
 
 
-    static boolean reducePlayer2count(){
+    public static boolean reducePlayer2count(){
         if(player2Count>=1){
             player2Count=player2Count-1;
         }

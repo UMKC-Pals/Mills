@@ -1,10 +1,10 @@
-package sprint1.production;
+package sprint2.production;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class GameSetupGUI extends JFrame {
+public class GameSetupGUI extends JFrame {
     boolean playAgainstComputer = false;
 
     public GameSetupGUI() {
