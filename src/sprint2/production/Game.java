@@ -1,5 +1,6 @@
 package sprint2.production;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public abstract class Game {
+    Color player1Color, player2Color;
+
 
     public static void setPlayer1Count(int player1Count) {
         Game.player1Count = player1Count;
@@ -17,8 +20,13 @@ public abstract class Game {
         Game.player2Count = player2Count;
     }
 
-    public static void setPlayer1turn(boolean player1turn) {
-        Game.player1turn = player1turn;
+    private static boolean isPlayer1Turn=true;
+
+    public static void setPlayer1Turn(boolean player1Turn) {
+        Game.isPlayer1Turn = player1Turn;
+    }
+    public static boolean isPlayer1Turn() {
+        return isPlayer1Turn;
     }
 
     public static int getPlayer1Count() {
@@ -29,13 +37,13 @@ public abstract class Game {
         return player2Count;
     }
 
-    public static boolean isPlayer1turn() {
-        return player1turn;
-    }
+
 
     private static int player1Count=0;
     private static int player2Count=0;
-    static boolean player1turn=true;
+
+
+
     public static boolean reducePlayer1count(){
         if(player1Count>=1){
             player1Count=player1Count-1;
@@ -70,7 +78,6 @@ public abstract class Game {
          }
          catch (Throwable e){
              System.out.println("Exception in creating Game Directory: ");
-
              e.printStackTrace();
              return false;
          }
@@ -96,9 +103,6 @@ public abstract class Game {
                  System.out.println("Exception in creating Game File: ");
                  e.printStackTrace();
                  return false;
-
-
-
              }
              boolean writePermission = gameLogFile.setWritable(true);
              boolean readPermission = gameLogFile.setReadable(true);

@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 public class NMMGame extends Game{
     Board nmmBoard;
-    Color player1Color, player2Color;
     public NMMGame(boolean playAgainstComputer, boolean player1IsWhite) {
 
         if(player1IsWhite){
@@ -40,23 +39,23 @@ public class NMMGame extends Game{
 
                     if (nmmBoard.roundBtnArray[j].currentState == buttonStates.EMPTY) {
 
-                        if (Game.player1turn && Game.reducePlayer1count()) {
+                        if (Game.isPlayer1Turn() && Game.reducePlayer1count()) {
 
                             nmmBoard.roundBtnArray[j].currentState = buttonStates.PLAYER1;
                             nmmBoard.roundBtnArray[j].setBackground(player1Color);
 
 
-                            Game.player1turn = false;
+                            Game.setPlayer1Turn(false);
                             nmmBoard.roundBtnArray[j].setBounds(285 + nmmBoard.x[j] - (nmmBoard.dim2 / 2), nmmBoard.y[j] - (nmmBoard.dim1 / 2), nmmBoard.dim2, nmmBoard.dim2);
                             nmmBoard.roundBtnArray[j].setBorder(BorderFactory.createEmptyBorder());
                             GamePlayGUI.updatePlayerCountLabels(player1IsWhite);
                             GamePlayGUI.updatePlayerTurnLabel();
 
-                        } else if (!NMMGame.player1turn && Game.reducePlayer2count()) {
+                        } else if (!NMMGame.isPlayer1Turn() && Game.reducePlayer2count()) {
 
                             nmmBoard.roundBtnArray[j].currentState = buttonStates.PLAYER2;
                             nmmBoard.roundBtnArray[j].setBackground(player2Color);
-                            Game.player1turn = true;
+                            Game.setPlayer1Turn(true);
                             nmmBoard.roundBtnArray[j].setBounds(285 + nmmBoard.x[j] - (nmmBoard.dim2 / 2), nmmBoard.y[j] - (nmmBoard.dim1 / 2), nmmBoard.dim2, nmmBoard.dim2);
                             nmmBoard.roundBtnArray[j].setBorder(BorderFactory.createEmptyBorder());
                             GamePlayGUI.updatePlayerCountLabels(player1IsWhite);

@@ -115,7 +115,7 @@ public class GamePlayGUI extends JFrame{
         this.add(blackPlayerCountLabel);
 
 // Initializing current turn label
-        currentTurn = new JLabel("Current Turn : "+(Game.player1turn ?"Player 1":"Player 2"));
+        currentTurn = new JLabel("Current Turn : "+(Game.isPlayer1Turn() ?"Player 1":"Player 2"));
         currentTurn.setBounds(940,325,200,30);
 
         this.add(currentTurn);
@@ -182,6 +182,6 @@ public class GamePlayGUI extends JFrame{
         this.setVisible(true);
     }
     public static void updatePlayerTurnLabel() {
-        currentTurn.setText("Current Turn : "+(Game.player1turn ?"Player 1":"Player 2"));
+        currentTurn.setText("Current Turn : "+(Game.isPlayer1Turn() ?"Player 1":"Player 2"));
     }
 }
