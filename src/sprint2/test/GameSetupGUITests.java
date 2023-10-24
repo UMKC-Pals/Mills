@@ -7,14 +7,10 @@ import sprint2.production.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameSetupGUITests { //extends TestCase {
-
     private GamePlayGUI gamePlayGUI;
-
     @BeforeAll
     protected static void setUp() {//throws Exception{
-//        super.setUp();
         GameSetupGUI gameSetupGUI = new GameSetupGUI();
-
     }
 
     @Test

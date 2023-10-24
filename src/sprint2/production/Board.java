@@ -1,15 +1,16 @@
 package sprint2.production;
 
 import javax.swing.*;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.TreeSet;
 
 public class Board {
-//    in the board, there are 25 positions maximum,
-//    these 25 are represented as 0 to 24 in an array.
-//    with 0 to 23 linearly arranged from top-left to bottom right row wise.
-//    24 is the center vertex used in 3 mens morris.
-//
+/*  In the board, there are 25 positions maximum,
+    these 25 are represented as 0 to 24 in an array.
+    with 0 to 23 linearly arranged from top-left to bottom-right row wise.
+    24 is the center vertex which is used only in 3 mens morris.
+*/
     boolean[][] edgeExists;
     RoundButton [] roundBtnArray;
     HashSet<TreeSet<Integer>> innerSquareMills, middleSquareMills, outerSquareMills, nmmMills, smmMills, twmmMills, tmmMills;
@@ -66,31 +67,14 @@ public class Board {
         }
     }
     protected void setUpInnerSquare() {
-        line.clear();
 
-        line.add(6);
-        line.add(7);
-        line.add(8);
-        innerSquareMills.add(line);
-        line.clear();
+        innerSquareMills.add(new TreeSet<Integer>(Arrays.asList(6,7,8)));
 
-        line.add(6);
-        line.add(11);
-        line.add(15);
-        innerSquareMills.add(line);
-        line.clear();
+        innerSquareMills.add(new TreeSet<Integer>(Arrays.asList(6,11,15)));
 
-        line.add(8);
-        line.add(12);
-        line.add(17);
-        innerSquareMills.add(line);
-        line.clear();
+        innerSquareMills.add(new TreeSet<Integer>(Arrays.asList(8,12,17)));
 
-        line.add(15);
-        line.add(16);
-        line.add(17);
-        innerSquareMills.add(line);
-        line.clear();
+        innerSquareMills.add(new TreeSet<Integer>(Arrays.asList(15,16,17)));
 
         setEdgeExists(6,7);
         setEdgeExists(6,11);
@@ -103,31 +87,14 @@ public class Board {
 
     }
     protected void setUpMiddleSquare() {
-        line.clear();
 
-        line.add(3);
-        line.add(4);
-        line.add(5);
-        middleSquareMills.add(line);
-        line.clear();
+        middleSquareMills.add(new TreeSet<Integer>(Arrays.asList(3,4,5)));
 
-        line.add(3);
-        line.add(10);
-        line.add(18);
-        middleSquareMills.add(line);
-        line.clear();
+        middleSquareMills.add(new TreeSet<Integer>(Arrays.asList(3,10,18)));
 
-        line.add(5);
-        line.add(13);
-        line.add(20);
-        middleSquareMills.add(line);
-        line.clear();
+        middleSquareMills.add(new TreeSet<Integer>(Arrays.asList(5,13,20)));
 
-        line.add(18);
-        line.add(19);
-        line.add(20);
-        middleSquareMills.add(line);
-        line.clear();
+        middleSquareMills.add(new TreeSet<Integer>(Arrays.asList(18,19,20)));
 
         setEdgeExists(3,4);
         setEdgeExists(3,10);
@@ -140,31 +107,13 @@ public class Board {
 
     }
     protected void setUpOuterSquare() {
-        line.clear();
+        outerSquareMills.add(new TreeSet<Integer>(Arrays.asList(0,1,2)));
 
-        line.add(0);
-        line.add(1);
-        line.add(2);
-        outerSquareMills.add(line);
-        line.clear();
+        outerSquareMills.add(new TreeSet<Integer>(Arrays.asList(0,9,21)));
 
-        line.add(0);
-        line.add(9);
-        line.add(21);
-        outerSquareMills.add(line);
-        line.clear();
+        outerSquareMills.add(new TreeSet<Integer>(Arrays.asList(2,14,23)));
 
-        line.add(2);
-        line.add(14);
-        line.add(23);
-        outerSquareMills.add(line);
-        line.clear();
-
-        line.add(21);
-        line.add(22);
-        line.add(23);
-        outerSquareMills.add(line);
-        line.clear();
+        outerSquareMills.add(new TreeSet<Integer>(Arrays.asList(21,22,23)));
 
         setEdgeExists(1,0);
         setEdgeExists(9,0);
@@ -184,31 +133,13 @@ public class Board {
         nmmMills.addAll(smmMills);
         nmmMills.addAll(outerSquareMills);
 
-        line.clear();
+        nmmMills.add(new TreeSet<Integer>(Arrays.asList(1, 4, 7)));
 
-        line.add(1);
-        line.add(4);
-        line.add(7);
-        nmmMills.add(line);
-        line.clear();
+        nmmMills.add(new TreeSet<Integer>(Arrays.asList(9, 10, 11)));
 
-        line.add(9);
-        line.add(10);
-        line.add(11);
-        nmmMills.add(line);
-        line.clear();
+        nmmMills.add(new TreeSet<Integer>(Arrays.asList(12, 13, 14)));
 
-        line.add(12);
-        line.add(13);
-        line.add(14);
-        nmmMills.add(line);
-        line.clear();
-
-        line.add(16);
-        line.add(19);
-        line.add(22);
-        nmmMills.add(line);
-        line.clear();
+        nmmMills.add(new TreeSet<Integer>(Arrays.asList(16, 19, 22)));
 
         setEdgeExists(1,4);
         setEdgeExists(10,9);
@@ -235,31 +166,13 @@ public class Board {
 
         twmmMills.addAll(nmmMills);
 
-        line.clear();
+        twmmMills.add(new TreeSet<Integer>(Arrays.asList(0,3,6)));
 
-        line.add(0);
-        line.add(3);
-        line.add(6);
-        twmmMills.add(line);
-        line.clear();
+        twmmMills.add(new TreeSet<Integer>(Arrays.asList(2,5,8)));
 
-        line.add(2);
-        line.add(5);
-        line.add(8);
-        twmmMills.add(line);
-        line.clear();
+        twmmMills.add(new TreeSet<Integer>(Arrays.asList(15,18,21)));
 
-        line.add(15);
-        line.add(18);
-        line.add(21);
-        twmmMills.add(line);
-        line.clear();
-
-        line.add(17);
-        line.add(20);
-        line.add(23);
-        twmmMills.add(line);
-        line.clear();
+        twmmMills.add(new TreeSet<Integer>(Arrays.asList(17,20,23)));
 
         setEdgeExists(0,3);
         setEdgeExists(3,6);
@@ -276,31 +189,13 @@ public class Board {
 
         tmmMills.addAll(innerSquareMills);
 
-        line.clear();
+        tmmMills.add(new TreeSet<Integer>(Arrays.asList(6,17,24)));
 
-        line.add(6);
-        line.add(17);
-        line.add(24);
-        tmmMills.add(line);
-        line.clear();
+        tmmMills.add(new TreeSet<Integer>(Arrays.asList(8,15,24)));
 
-        line.add(8);
-        line.add(15);
-        line.add(24);
-        tmmMills.add(line);
-        line.clear();
+        tmmMills.add(new TreeSet<Integer>(Arrays.asList(7,16,24)));
 
-        line.add(11);
-        line.add(12);
-        line.add(24);
-        tmmMills.add(line);
-        line.clear();
-
-        line.add(7);
-        line.add(16);
-        line.add(24);
-        tmmMills.add(line);
-        line.clear();
+        tmmMills.add(new TreeSet<Integer>(Arrays.asList(11,12,24)));
 
         setEdgeExists(24,6);
         setEdgeExists(7,24);

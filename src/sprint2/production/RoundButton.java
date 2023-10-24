@@ -7,7 +7,7 @@ enum buttonStates{
     PLAYER1,
     PLAYER2,
     EMPTY,
-    INVALID;
+    INVALID
 }
 
 public class RoundButton extends JButton {
@@ -19,7 +19,6 @@ public class RoundButton extends JButton {
     }
     @Override
     protected void paintComponent(Graphics g) {
-
         if(this.currentState==buttonStates.INVALID){
             this.setVisible(false);
         }
@@ -40,7 +39,6 @@ public class RoundButton extends JButton {
 
     @Override
     protected void paintBorder(Graphics g) {
-
         if(this.currentState==buttonStates.INVALID){
             this.setVisible(false);
         }

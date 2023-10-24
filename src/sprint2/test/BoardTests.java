@@ -4,15 +4,16 @@ import org.junit.jupiter.api.*;
 import sprint2.production.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BoardTests { //extends TestCase {
+public class BoardTests {
     private static Game game;
     private static Board board;
+    static GameSetupGUI gameSetupGUI;
+    static GamePlayGUI gamePlayGUI;
 
     @BeforeAll
-    protected static void setUp(){ // throws Exception{
-//        super.setUp();
-        GameSetupGUI gameSetupGUI = new GameSetupGUI();
-        GamePlayGUI gamePlayGUI = new GamePlayGUI(9, false, true);
+    protected static void setUp(){
+        gameSetupGUI = new GameSetupGUI();
+        gamePlayGUI = new GamePlayGUI(9, false, true);
 
     }
 
@@ -29,11 +30,6 @@ public class BoardTests { //extends TestCase {
 
 
 
-    @AfterAll
-    static void tearDown() {
-        game=null;
-        board=null;
-    }
 
     @Test
     void setEdgeExists() {
@@ -65,5 +61,13 @@ public class BoardTests { //extends TestCase {
 
     @Test
     void setupThreeBoard() {
+    }
+
+    @AfterAll
+    static void tearDown() {
+        game=null;
+        board=null;
+        gameSetupGUI=null;
+        gamePlayGUI=null;
     }
 }
