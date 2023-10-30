@@ -5,21 +5,42 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GameSetupGUI extends JFrame {
-    boolean playAgainstComputer = false;
+    private boolean playAgainstComputer = false;
 
-    public GamePlayGUI getNmmGameGUI() {
-        return nmmGameGUI;
+    public boolean getPlayAgainstComputer() {
+        return playAgainstComputer;
     }
 
-    public void setNmmGameGUI(GamePlayGUI nmmGameGUI) {
-        this.nmmGameGUI = nmmGameGUI;
+    public void setPlayAgainstComputer(boolean playAgainstComputer) {
+        this.playAgainstComputer = playAgainstComputer;
     }
 
-    private GamePlayGUI nmmGameGUI;
+    private static GameSetupGUI myGameSetupGUI;
+    public static GameSetupGUI getMyGameSetupGUI() {
+        return myGameSetupGUI;
+    }
+
+    public static void setMyGameSetupGUI(GameSetupGUI newGameSetupGUI) {
+        GameSetupGUI oldGameSetupGUI=GameSetupGUI.myGameSetupGUI;
+        GameSetupGUI.myGameSetupGUI = newGameSetupGUI;
+        if(oldGameSetupGUI!=null){
+            oldGameSetupGUI.dispose();
+
+        }
+    }
+
+    private GamePlayGUI xmmGameGUI;
+
+    public GamePlayGUI getXmmGameGUI() {
+        return xmmGameGUI;
+    }
+
+    public void setXmmGameGUI(GamePlayGUI xmmGameGUI) {
+        this.xmmGameGUI = xmmGameGUI;
+    }
+
 
     public GameSetupGUI() {
-
-
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400,500);
@@ -47,8 +68,8 @@ public class GameSetupGUI extends JFrame {
         player1ColorButtonGroup.add(player1BlackRadioBtn);
         player1WhiteRadioBtn.setSelected(true);
 
-        playAgainstComputer = false;
-        
+        setPlayAgainstComputer(false);
+
         numberOfMenComboBox.addItem("3 Men's Morris");
         numberOfMenComboBox.addItem("6 Men's Morris");
         numberOfMenComboBox.addItem("9 Men's Morris");
@@ -87,26 +108,25 @@ public class GameSetupGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 if(HvHradioBtn.isSelected()){
-                    playAgainstComputer=false;
+                    setPlayAgainstComputer(false);
                 }
                 else if(HvCradioBtn.isSelected()){
-                    playAgainstComputer=true;
+                    setPlayAgainstComputer(true);
                 }
 
                 if(numberOfMenComboBox.getSelectedItem().equals("9 Men's Morris")){
-                    nmmGameGUI=new GamePlayGUI(9,playAgainstComputer, player1WhiteRadioBtn.isSelected());
+                    setXmmGameGUI(new GamePlayGUI(9,getPlayAgainstComputer(), player1WhiteRadioBtn.isSelected()));
                 }
                 if(numberOfMenComboBox.getSelectedItem().equals("6 Men's Morris")){
-                    GamePlayGUI smmGameGUI=new GamePlayGUI(6,playAgainstComputer, player1WhiteRadioBtn.isSelected());
+                    setXmmGameGUI(new GamePlayGUI(6,getPlayAgainstComputer(), player1WhiteRadioBtn.isSelected()));
                 }
                 if(numberOfMenComboBox.getSelectedItem().equals("12 Men's Morris")){
-                    GamePlayGUI twmmGameGUI=new GamePlayGUI(12,playAgainstComputer, player1WhiteRadioBtn.isSelected());
+                    setXmmGameGUI(new GamePlayGUI(12,getPlayAgainstComputer(), player1WhiteRadioBtn.isSelected()));
                 }
                 if(numberOfMenComboBox.getSelectedItem().equals("3 Men's Morris")){
-                    GamePlayGUI tmmGameGUI=new GamePlayGUI(3,playAgainstComputer, player1WhiteRadioBtn.isSelected());
+                    setXmmGameGUI(new GamePlayGUI(3,getPlayAgainstComputer(), player1WhiteRadioBtn.isSelected()));
                 }
             }
-
 
         });
 
@@ -127,25 +147,10 @@ public class GameSetupGUI extends JFrame {
         this.setVisible(true);
         this.setResizable(false);
 
-
     }
 
-    public static GameSetupGUI getMyGameSetupGUI() {
-        return myGameSetupGUI;
-    }
-
-    public static void setMyGameSetupGUI(GameSetupGUI newGameSetupGUI) {
-
-        GameSetupGUI oldGameSetupGUI=GameSetupGUI.myGameSetupGUI;
-        GameSetupGUI.myGameSetupGUI = newGameSetupGUI;
-        oldGameSetupGUI.dispose();
-    }
-
-    static GameSetupGUI myGameSetupGUI;
     public static void main(String [] args){
-
-        myGameSetupGUI=new GameSetupGUI();
-
+        setMyGameSetupGUI(new GameSetupGUI());
     }
 
 }
