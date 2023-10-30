@@ -7,10 +7,21 @@ import java.awt.event.ActionListener;
 public class GameSetupGUI extends JFrame {
     boolean playAgainstComputer = false;
 
+    public GamePlayGUI getNmmGameGUI() {
+        return nmmGameGUI;
+    }
+
+    public void setNmmGameGUI(GamePlayGUI nmmGameGUI) {
+        this.nmmGameGUI = nmmGameGUI;
+    }
+
+    private GamePlayGUI nmmGameGUI;
+
     public GameSetupGUI() {
 
 
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400,500);
         this.setLocationRelativeTo(null); // to display the JFrame centered to the screen
         this.setTitle("Mills Game - by Pals");
@@ -37,10 +48,7 @@ public class GameSetupGUI extends JFrame {
         player1WhiteRadioBtn.setSelected(true);
 
         playAgainstComputer = false;
-
-
-
-
+        
         numberOfMenComboBox.addItem("3 Men's Morris");
         numberOfMenComboBox.addItem("6 Men's Morris");
         numberOfMenComboBox.addItem("9 Men's Morris");
@@ -86,7 +94,7 @@ public class GameSetupGUI extends JFrame {
                 }
 
                 if(numberOfMenComboBox.getSelectedItem().equals("9 Men's Morris")){
-                    GamePlayGUI nmmGameGUI=new GamePlayGUI(9,playAgainstComputer, player1WhiteRadioBtn.isSelected());
+                    nmmGameGUI=new GamePlayGUI(9,playAgainstComputer, player1WhiteRadioBtn.isSelected());
                 }
                 if(numberOfMenComboBox.getSelectedItem().equals("6 Men's Morris")){
                     GamePlayGUI smmGameGUI=new GamePlayGUI(6,playAgainstComputer, player1WhiteRadioBtn.isSelected());
@@ -121,8 +129,23 @@ public class GameSetupGUI extends JFrame {
 
 
     }
+
+    public static GameSetupGUI getMyGameSetupGUI() {
+        return myGameSetupGUI;
+    }
+
+    public static void setMyGameSetupGUI(GameSetupGUI newGameSetupGUI) {
+
+        GameSetupGUI oldGameSetupGUI=GameSetupGUI.myGameSetupGUI;
+        GameSetupGUI.myGameSetupGUI = newGameSetupGUI;
+        oldGameSetupGUI.dispose();
+    }
+
+    static GameSetupGUI myGameSetupGUI;
     public static void main(String [] args){
-        new GameSetupGUI();
+
+        myGameSetupGUI=new GameSetupGUI();
+
     }
 
 }

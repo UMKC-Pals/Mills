@@ -37,7 +37,7 @@ public class GamePlayGUI extends JFrame{
 
     public GamePlayGUI(int numberOfMen, boolean playAgainstComputer, boolean player1IsWhite) {
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setSize(1200,800);
         URL imageUrl = null;
         ImageIcon imageIcon = null;
@@ -156,8 +156,15 @@ public class GamePlayGUI extends JFrame{
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                 thisGameplayGUI.setVisible(false);
-//                 new GameGUI();
+//                option 1: new GamePlayGUI object created from inside this, dispose current object.
+//                new GamePlayGUI(numberOfMen,playAgainstComputer,player1IsWhite);
+//                setVisible(false);
+//                dispose();
+
+//                option 2: new GameSetupGUI object, invoke new game programmatically.
+                GameSetupGUI.setMyGameSetupGUI(new GameSetupGUI());
+                setVisible(false);//hiding gameplayGUI
+                dispose();// disposing gameplayGUI
 
             }
         });

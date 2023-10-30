@@ -21,9 +21,9 @@ public class Board {
     int dim1=10,dim2=20;
 
     public Board(int size) {
+
             edgeExists = new boolean[25][25];
             roundBtnArray = new RoundButton[25];
-
 
             for(int i=0;i<25;i++){
                 roundBtnArray[i] = new RoundButton("");
@@ -61,7 +61,7 @@ public class Board {
     }
 
     protected void setEdgeExists(int a, int b){
-        if (a >= 0 && a <= 24 && b>=0 && b<=24) {
+        if (a >= 0 && a <= 24 && b >= 0 && b <= 24) {
             edgeExists[a][b] = true;
             edgeExists[b][a] = true;
         }
@@ -77,10 +77,10 @@ public class Board {
         innerSquareMills.add(new TreeSet<Integer>(Arrays.asList(15,16,17)));
 
         setEdgeExists(6,7);
-        setEdgeExists(6,11);
-        setEdgeExists(8,7);
-        setEdgeExists(12,8);
+        setEdgeExists(7,8);
+        setEdgeExists(8,12);
         setEdgeExists(12,17);
+        setEdgeExists(6,11);
         setEdgeExists(11,15);
         setEdgeExists(15,16);
         setEdgeExists(16,17);
@@ -97,12 +97,12 @@ public class Board {
         middleSquareMills.add(new TreeSet<Integer>(Arrays.asList(18,19,20)));
 
         setEdgeExists(3,4);
+        setEdgeExists(4,5);
+        setEdgeExists(5,13);
+        setEdgeExists(13,20);
         setEdgeExists(3,10);
-        setEdgeExists(5,4);
-        setEdgeExists(13,5);
         setEdgeExists(10,18);
         setEdgeExists(18,19);
-        setEdgeExists(13,20);
         setEdgeExists(19,20);
 
     }
@@ -115,73 +115,15 @@ public class Board {
 
         outerSquareMills.add(new TreeSet<Integer>(Arrays.asList(21,22,23)));
 
-        setEdgeExists(1,0);
-        setEdgeExists(9,0);
+        setEdgeExists(0,1);
         setEdgeExists(1,2);
-        setEdgeExists(14,2);
+        setEdgeExists(2,14);
         setEdgeExists(14,23);
-        setEdgeExists(21,9);
+        setEdgeExists(0,9);
+        setEdgeExists(9,21);
         setEdgeExists(21,22);
-        setEdgeExists(23,22);
+        setEdgeExists(22,23);
 
-    }
-    protected void setupNineBoard(){
-
-        setupSixBoard();
-        setUpOuterSquare();
-
-        nmmMills.addAll(smmMills);
-        nmmMills.addAll(outerSquareMills);
-
-        nmmMills.add(new TreeSet<Integer>(Arrays.asList(1, 4, 7)));
-
-        nmmMills.add(new TreeSet<Integer>(Arrays.asList(9, 10, 11)));
-
-        nmmMills.add(new TreeSet<Integer>(Arrays.asList(12, 13, 14)));
-
-        nmmMills.add(new TreeSet<Integer>(Arrays.asList(16, 19, 22)));
-
-        setEdgeExists(1,4);
-        setEdgeExists(10,9);
-        setEdgeExists(13,14);
-        setEdgeExists(19,22);
-
-    }
-    protected void setupSixBoard() {
-        setUpInnerSquare();
-        setUpMiddleSquare();
-
-        smmMills.addAll(middleSquareMills);
-        smmMills.addAll(innerSquareMills);
-
-        setEdgeExists(7,4);
-        setEdgeExists(10,11);
-        setEdgeExists(12,13);
-        setEdgeExists(16,19);
-
-    }
-    protected void setupTwelveBoard(){
-
-        setupNineBoard();
-
-        twmmMills.addAll(nmmMills);
-
-        twmmMills.add(new TreeSet<Integer>(Arrays.asList(0,3,6)));
-
-        twmmMills.add(new TreeSet<Integer>(Arrays.asList(2,5,8)));
-
-        twmmMills.add(new TreeSet<Integer>(Arrays.asList(15,18,21)));
-
-        twmmMills.add(new TreeSet<Integer>(Arrays.asList(17,20,23)));
-
-        setEdgeExists(0,3);
-        setEdgeExists(3,6);
-        setEdgeExists(5,2);
-        setEdgeExists(8,5);
-        setEdgeExists(18,15);
-        setEdgeExists(18,21);
-        setEdgeExists(20,17);
-        setEdgeExists(20,23);
     }
     protected void setupThreeBoard(){
 
@@ -206,6 +148,66 @@ public class Board {
         setEdgeExists(16,24);
         setEdgeExists(17,24);
 
+    }
+    protected void setupSixBoard() {
+
+        setUpInnerSquare();
+        setUpMiddleSquare();
+
+        smmMills.addAll(middleSquareMills);
+        smmMills.addAll(innerSquareMills);
+
+        setEdgeExists(7,4);
+        setEdgeExists(10,11);
+        setEdgeExists(12,13);
+        setEdgeExists(16,19);
+
+    }
+    protected void setupNineBoard(){
+
+        setupSixBoard();
+        setUpOuterSquare();
+
+        nmmMills.addAll(smmMills);
+        nmmMills.addAll(outerSquareMills);
+
+        nmmMills.add(new TreeSet<Integer>(Arrays.asList(1, 4, 7)));
+
+        nmmMills.add(new TreeSet<Integer>(Arrays.asList(9, 10, 11)));
+
+        nmmMills.add(new TreeSet<Integer>(Arrays.asList(12, 13, 14)));
+
+        nmmMills.add(new TreeSet<Integer>(Arrays.asList(16, 19, 22)));
+
+        setEdgeExists(1,4);
+        setEdgeExists(10,9);
+        setEdgeExists(13,14);
+        setEdgeExists(19,22);
+
+    }
+
+    protected void setupTwelveBoard(){
+
+        setupNineBoard();
+
+        twmmMills.addAll(nmmMills);
+
+        twmmMills.add(new TreeSet<Integer>(Arrays.asList(0,3,6)));
+
+        twmmMills.add(new TreeSet<Integer>(Arrays.asList(2,5,8)));
+
+        twmmMills.add(new TreeSet<Integer>(Arrays.asList(15,18,21)));
+
+        twmmMills.add(new TreeSet<Integer>(Arrays.asList(17,20,23)));
+
+        setEdgeExists(0,3);
+        setEdgeExists(3,6);
+        setEdgeExists(5,2);
+        setEdgeExists(8,5);
+        setEdgeExists(18,15);
+        setEdgeExists(18,21);
+        setEdgeExists(20,17);
+        setEdgeExists(20,23);
     }
 
 }
