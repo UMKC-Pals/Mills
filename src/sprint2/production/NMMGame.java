@@ -36,14 +36,12 @@ public class NMMGame extends Game{
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-
                     if (nmmBoard.roundBtnArray[j].currentState == buttonStates.EMPTY) {
 
                         if (Game.isPlayer1Turn() && Game.reducePlayer1count()) {
 
                             nmmBoard.roundBtnArray[j].currentState = buttonStates.PLAYER1;
                             nmmBoard.roundBtnArray[j].setBackground(player1Color);
-
 
                             Game.setPlayer1Turn(false);
                             nmmBoard.roundBtnArray[j].setBounds(285 + nmmBoard.x[j] - (nmmBoard.dim2 / 2), nmmBoard.y[j] - (nmmBoard.dim1 / 2), nmmBoard.dim2, nmmBoard.dim2);

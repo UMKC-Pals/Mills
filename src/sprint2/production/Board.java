@@ -14,7 +14,7 @@ public class Board {
     boolean[][] edgeExists;
     RoundButton [] roundBtnArray;
     HashSet<TreeSet<Integer>> innerSquareMills, middleSquareMills, outerSquareMills, nmmMills, smmMills, twmmMills, tmmMills;
-    TreeSet<Integer> line;
+//    TreeSet<Integer> line;
     int[] y = {15,15,15,115,115,115,215,215,215,315,315,315,315,315,315,415,415,415,515,515,515,615,615,615, 315};
     int[] x = {15,315,615,115,315,515,215,315,415,15,115,215,415,515,615,215,315,415,115,315,515,15,315,615, 315};
 
@@ -41,7 +41,7 @@ public class Board {
             smmMills = new HashSet<TreeSet<Integer>>();
             twmmMills = new HashSet<TreeSet<Integer>>();
             tmmMills = new HashSet<TreeSet<Integer>>();
-            line=new TreeSet<Integer>();
+//            line=new TreeSet<Integer>();
 
             if(size==3){
             setupThreeBoard();

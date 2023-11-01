@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 public abstract class Game {
     Color player1Color, player2Color;
 
+    private static int player1Count=0;// the number of new un-used pieces player1
+    private static int player2Count=0;// the number of new un-used pieces player1
 
     public static void setPlayer1Count(int player1Count) {
         Game.player1Count = player1Count;
@@ -20,15 +22,6 @@ public abstract class Game {
         Game.player2Count = player2Count;
     }
 
-    private static boolean isPlayer1Turn=true;
-
-    public static void setPlayer1Turn(boolean player1Turn) {
-        Game.isPlayer1Turn = player1Turn;
-    }
-    public static boolean isPlayer1Turn() {
-        return isPlayer1Turn;
-    }
-
     public static int getPlayer1Count() {
         return player1Count;
     }
@@ -36,13 +29,6 @@ public abstract class Game {
     public static int getPlayer2Count() {
         return player2Count;
     }
-
-
-
-    private static int player1Count=0;
-    private static int player2Count=0;
-
-
 
     public static boolean reducePlayer1count(){
         if(player1Count>=1){
@@ -54,7 +40,6 @@ public abstract class Game {
         return true;
     }
 
-
     public static boolean reducePlayer2count(){
         if(player2Count>=1){
             player2Count=player2Count-1;
@@ -63,6 +48,14 @@ public abstract class Game {
             return false;
         }
         return true;
+    }
+
+    private static boolean isPlayer1Turn=true;
+    public static void setPlayer1Turn(boolean player1Turn) {
+        Game.isPlayer1Turn = player1Turn;
+    }
+    public static boolean isPlayer1Turn() {
+        return isPlayer1Turn;
     }
 
     public boolean dirAndFileSetup(){
@@ -113,7 +106,7 @@ public abstract class Game {
 
          if(gameLogFile.canRead() && gameLogFile.canWrite()){
              try{
-                 System.out.println("entered it");
+                 System.out.println("Game log file entered.");
                  FileWriter writerObj = new FileWriter(gameLogFile,true);
                  writerObj.write("123\n");
                  writerObj.close();
