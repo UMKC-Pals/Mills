@@ -12,13 +12,14 @@ public class Board {
     24 is the center vertex which is used only in 3 mens morris.
 */
     boolean[][] edgeExists;
-    RoundButton [] roundBtnArray;
+    static RoundButton [] roundBtnArray;
     HashSet<TreeSet<Integer>> innerSquareMills, middleSquareMills, outerSquareMills, nmmMills, smmMills, twmmMills, tmmMills;
 //    TreeSet<Integer> line;
-    int[] y = {15,15,15,115,115,115,215,215,215,315,315,315,315,315,315,415,415,415,515,515,515,615,615,615, 315};
-    int[] x = {15,315,615,115,315,515,215,315,415,15,115,215,415,515,615,215,315,415,115,315,515,15,315,615, 315};
+    static int[] y = {15,15,15,115,115,115,215,215,215,315,315,315,315,315,315,415,415,415,515,515,515,615,615,615, 315};
+    static int[] x = {15,315,615,115,315,515,215,315,415,15,115,215,415,515,615,215,315,415,115,315,515,15,315,615, 315};
 
-    int dim1=10,dim2=20;
+    static int dim1=10;
+    static int dim2=20;
 
     public Board(int size) {
 
@@ -27,7 +28,7 @@ public class Board {
 
             for(int i=0;i<25;i++){
                 roundBtnArray[i] = new RoundButton("");
-                roundBtnArray[i].currentState=buttonStates.INVALID;
+                roundBtnArray[i].currentBtnState =buttonStates.INVALID;
                 roundBtnArray[i].setSize(10,10);
 
                 roundBtnArray[i].setBounds(285+x[i]-(dim1/2),y[i],dim1,dim1);

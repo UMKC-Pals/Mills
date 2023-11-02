@@ -11,7 +11,7 @@ enum buttonStates{
 }
 
 public class RoundButton extends JButton {
-    buttonStates currentState=buttonStates.INVALID;
+    buttonStates currentBtnState =buttonStates.INVALID;
     public RoundButton(String text) {
         super(text);
         setContentAreaFilled(false);
@@ -19,7 +19,7 @@ public class RoundButton extends JButton {
     }
     @Override
     protected void paintComponent(Graphics g) {
-        if(this.currentState==buttonStates.INVALID){
+        if(this.currentBtnState ==buttonStates.INVALID){
             this.setVisible(false);
         }
 
@@ -39,7 +39,7 @@ public class RoundButton extends JButton {
 
     @Override
     protected void paintBorder(Graphics g) {
-        if(this.currentState==buttonStates.INVALID){
+        if(this.currentBtnState ==buttonStates.INVALID){
             this.setVisible(false);
         }
         Graphics2D g2 = (Graphics2D) g.create();
