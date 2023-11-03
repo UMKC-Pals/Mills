@@ -34,6 +34,9 @@ public class NMMGame extends Game{
             nmmBoard.roundBtnArray[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
+
+
                     boolean pl1Place=isPlayer1Turn() && player1GameState==gameStates.PLACE;
                     boolean pl2Place=!isPlayer1Turn() && player2GameState==gameStates.PLACE;
 
@@ -68,54 +71,16 @@ public class NMMGame extends Game{
                     }
                     else if(pl1FlyPick || pl2FlyPick){
 //                      call flyPick function
-                        flyPick();
+                        flyPick(j);
                     }
                     else if(pl1FlyDrop || pl2FlyDrop){
 //                      call flyDrop function
-                        flyDrop();
+                        flyDrop(j);
                     }
                     else if(pl1Remove || pl2Remove){
 //                      call removePiece function from Game.java
 //                        removePiece();
                     }
-
-
-
-
-//                    if (nmmBoard.roundBtnArray[j].currentBtnState == buttonStates.EMPTY) {
-//
-//                        if (Game.isPlayer1Turn() && Game.reducePlayer1count()) {
-//
-//                            nmmBoard.roundBtnArray[j].currentBtnState = buttonStates.PLAYER1;
-//                            nmmBoard.roundBtnArray[j].setBackground(player1Color);
-//
-//                            Game.setPlayer1Turn(false);
-//                            nmmBoard.roundBtnArray[j].setBounds(285 + nmmBoard.x[j] - (nmmBoard.dim2 / 2), nmmBoard.y[j] - (nmmBoard.dim1 / 2), nmmBoard.dim2, nmmBoard.dim2);
-//                            nmmBoard.roundBtnArray[j].setBorder(BorderFactory.createEmptyBorder());
-//                            GamePlayGUI.updatePlayerCountLabels(player1IsWhite);
-//                            GamePlayGUI.updatePlayerTurnLabel();
-//
-//                        } else if (!NMMGame.isPlayer1Turn() && Game.reducePlayer2count()) {
-//
-//                            nmmBoard.roundBtnArray[j].currentBtnState = buttonStates.PLAYER2;
-//                            nmmBoard.roundBtnArray[j].setBackground(player2Color);
-//                            Game.setPlayer1Turn(true);
-//                            nmmBoard.roundBtnArray[j].setBounds(285 + nmmBoard.x[j] - (nmmBoard.dim2 / 2), nmmBoard.y[j] - (nmmBoard.dim1 / 2), nmmBoard.dim2, nmmBoard.dim2);
-//                            nmmBoard.roundBtnArray[j].setBorder(BorderFactory.createEmptyBorder());
-//                            GamePlayGUI.updatePlayerCountLabels(player1IsWhite);
-//                            GamePlayGUI.updatePlayerTurnLabel();
-//
-//                        }
-//
-//                    }
-
-
-
-
-
-
-
-
                 }// end of actionPerformed
 
             });

@@ -6,12 +6,14 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 public class Board {
-/*  In the board, there are 25 positions maximum,
-    these 25 are represented as 0 to 24 in an array.
-    with 0 to 23 linearly arranged from top-left to bottom-right row wise.
-    24 is the center vertex which is used only in 3 mens morris.
-*/
-    boolean[][] edgeExists;
+
+
+    /*  In the board, there are 25 positions maximum,
+        these 25 are represented as 0 to 24 in an array.
+        with 0 to 23 linearly arranged from top-left to bottom-right row wise.
+        24 is the center vertex which is used only in 3 mens morris.
+    */
+    static boolean[][] edgeExists;
     static RoundButton [] roundBtnArray;
     HashSet<TreeSet<Integer>> innerSquareMills, middleSquareMills, outerSquareMills, nmmMills, smmMills, twmmMills, tmmMills;
 //    TreeSet<Integer> line;
@@ -66,6 +68,9 @@ public class Board {
             edgeExists[a][b] = true;
             edgeExists[b][a] = true;
         }
+    }
+    public static boolean getEdgeExists(int a, int b) {
+        return edgeExists[a][b];
     }
     protected void setUpInnerSquare() {
 
