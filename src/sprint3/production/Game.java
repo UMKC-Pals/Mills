@@ -1,4 +1,4 @@
-package sprint2.production;
+package sprint3.production;
 
 import java.awt.*;
 import java.io.File;
@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.TreeSet;
-import static sprint2.production.Board.*;
+import static sprint3.production.Board.*;
 
 public abstract class Game {
     Color player1Color, player2Color;

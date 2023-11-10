@@ -1,7 +1,7 @@
-package sprint2.test;
+package sprint3.test;
 
 import org.junit.jupiter.api.*;
-import sprint2.production.*;
+import sprint3.production.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTests {
