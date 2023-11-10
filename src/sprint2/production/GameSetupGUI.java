@@ -25,7 +25,6 @@ public class GameSetupGUI extends JFrame {
         GameSetupGUI.myGameSetupGUI = newGameSetupGUI;
         if(oldGameSetupGUI!=null){
             oldGameSetupGUI.dispose();
-
         }
     }
 

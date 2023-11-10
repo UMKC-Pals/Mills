@@ -3,15 +3,15 @@ package sprint2.production;
 import javax.swing.*;
 import java.awt.*;
 
-enum buttonStates{
+/*enum buttonStates{
     PLAYER1,
     PLAYER2,
     EMPTY,
     INVALID
-}
+}*/
 
 public class RoundButton extends JButton {
-    buttonStates currentBtnState =buttonStates.INVALID;
+    public buttonStates currentBtnState =buttonStates.INVALID;// add public for testing purpose
     public RoundButton(String text) {
         super(text);
         setContentAreaFilled(false);

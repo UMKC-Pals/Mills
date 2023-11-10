@@ -7,16 +7,43 @@ import java.util.TreeSet;
 
 public class Board {
 
-
     /*  In the board, there are 25 positions maximum,
         these 25 are represented as 0 to 24 in an array.
         with 0 to 23 linearly arranged from top-left to bottom-right row wise.
         24 is the center vertex which is used only in 3 mens morris.
     */
     static boolean[][] edgeExists;
-    static RoundButton [] roundBtnArray;
+    public static RoundButton [] roundBtnArray;// add public for testing purpose
     HashSet<TreeSet<Integer>> innerSquareMills, middleSquareMills, outerSquareMills, nmmMills, smmMills, twmmMills, tmmMills;
-//    TreeSet<Integer> line;
+
+    public HashSet<TreeSet<Integer>> getInnerSquareMills() {// for testing purpose
+        return innerSquareMills;
+    }
+
+    public HashSet<TreeSet<Integer>> getMiddleSquareMills() {// for testing purpose
+        return middleSquareMills;
+    }
+
+    public HashSet<TreeSet<Integer>> getOuterSquareMills() {// for testing purpose
+        return outerSquareMills;
+    }
+
+    public HashSet<TreeSet<Integer>> getTmmMills() {// for testing purpose
+        return tmmMills;
+    }
+
+    public HashSet<TreeSet<Integer>> getSmmMills() {// for testing purpose
+        return smmMills;
+    }
+
+    public HashSet<TreeSet<Integer>> getNmmMills() {// for testing purpose
+        return nmmMills;
+    }
+
+    public HashSet<TreeSet<Integer>> getTwmmMills() {// for testing purpose
+        return twmmMills;
+    }
+
     static int[] y = {15,15,15,115,115,115,215,215,215,315,315,315,315,315,315,415,415,415,515,515,515,615,615,615, 315};
     static int[] x = {15,315,615,115,315,515,215,315,415,15,115,215,415,515,615,215,315,415,115,315,515,15,315,615, 315};
 
@@ -25,54 +52,56 @@ public class Board {
 
     public Board(int size) {
 
-            edgeExists = new boolean[25][25];
-            roundBtnArray = new RoundButton[25];
+        edgeExists = new boolean[25][25];
+        roundBtnArray = new RoundButton[25];
 
-            for(int i=0;i<25;i++){
-                roundBtnArray[i] = new RoundButton("");
-                roundBtnArray[i].currentBtnState =buttonStates.INVALID;
-                roundBtnArray[i].setSize(10,10);
+        for(int i=0;i<25;i++){
+            roundBtnArray[i] = new RoundButton("");
+            roundBtnArray[i].currentBtnState =buttonStates.INVALID;
+            roundBtnArray[i].setSize(10,10);
 
-                roundBtnArray[i].setBounds(285+x[i]-(dim1/2),y[i],dim1,dim1);
-                roundBtnArray[i].setBorder(BorderFactory.createEmptyBorder());
-            }
+            roundBtnArray[i].setBounds(285+x[i]-(dim1/2),y[i],dim1,dim1);
+            roundBtnArray[i].setBorder(BorderFactory.createEmptyBorder());
+        }
 
-            innerSquareMills = new HashSet<TreeSet<Integer>>();
-            middleSquareMills = new HashSet<TreeSet<Integer>>();
-            outerSquareMills = new HashSet<TreeSet<Integer>>();
-            nmmMills = new HashSet<TreeSet<Integer>>();
-            smmMills = new HashSet<TreeSet<Integer>>();
-            twmmMills = new HashSet<TreeSet<Integer>>();
-            tmmMills = new HashSet<TreeSet<Integer>>();
-//            line=new TreeSet<Integer>();
+        innerSquareMills = new HashSet<TreeSet<Integer>>();
+        middleSquareMills = new HashSet<TreeSet<Integer>>();
+        outerSquareMills = new HashSet<TreeSet<Integer>>();
+        nmmMills = new HashSet<TreeSet<Integer>>();
+        smmMills = new HashSet<TreeSet<Integer>>();
+        twmmMills = new HashSet<TreeSet<Integer>>();
+        tmmMills = new HashSet<TreeSet<Integer>>();
 
-            if(size==3){
+        if(size==3){
             setupThreeBoard();
-            }
-            else if(size==6){
+        }
+        else if(size==6){
             setupSixBoard();
-            }
-            else if(size==9){
+        }
+        else if(size==9){
             setupNineBoard();
-            }
-            else if(size==12){
+        }
+        else if(size==12){
             setupTwelveBoard();
-            }
-            else{
-                System.exit(1);
-            }
+        }
+        else{
+            System.exit(1);
+        }
     }
 
-    protected void setEdgeExists(int a, int b){
+    public void setEdgeExists(int a, int b){// protected -> public
         if (a >= 0 && a <= 24 && b >= 0 && b <= 24) {
             edgeExists[a][b] = true;
             edgeExists[b][a] = true;
         }
     }
     public static boolean getEdgeExists(int a, int b) {
+        if(a<0 || b<0){
+            return false;
+        }
         return edgeExists[a][b];
     }
-    protected void setUpInnerSquare() {
+    public void setUpInnerSquare() {// protected -> public
 
         innerSquareMills.add(new TreeSet<Integer>(Arrays.asList(6,7,8)));
 
@@ -92,7 +121,7 @@ public class Board {
         setEdgeExists(16,17);
 
     }
-    protected void setUpMiddleSquare() {
+    public void setUpMiddleSquare() {// protected -> public
 
         middleSquareMills.add(new TreeSet<Integer>(Arrays.asList(3,4,5)));
 
@@ -112,7 +141,7 @@ public class Board {
         setEdgeExists(19,20);
 
     }
-    protected void setUpOuterSquare() {
+    public void setUpOuterSquare() {// protected -> public
         outerSquareMills.add(new TreeSet<Integer>(Arrays.asList(0,1,2)));
 
         outerSquareMills.add(new TreeSet<Integer>(Arrays.asList(0,9,21)));
@@ -131,7 +160,7 @@ public class Board {
         setEdgeExists(22,23);
 
     }
-    protected void setupThreeBoard(){
+    public void setupThreeBoard(){// protected -> public
 
         setUpInnerSquare();
 
@@ -155,7 +184,7 @@ public class Board {
         setEdgeExists(17,24);
 
     }
-    protected void setupSixBoard() {
+    public void setupSixBoard() {// protected -> public
 
         setUpInnerSquare();
         setUpMiddleSquare();
@@ -169,7 +198,7 @@ public class Board {
         setEdgeExists(16,19);
 
     }
-    protected void setupNineBoard(){
+    public void setupNineBoard(){// protected -> public
 
         setupSixBoard();
         setUpOuterSquare();
@@ -192,7 +221,7 @@ public class Board {
 
     }
 
-    protected void setupTwelveBoard(){
+    public void setupTwelveBoard(){// protected -> public
 
         setupNineBoard();
 

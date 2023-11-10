@@ -156,12 +156,6 @@ public class GamePlayGUI extends JFrame{
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                option 1: new GamePlayGUI object created from inside this, dispose current object.
-//                new GamePlayGUI(numberOfMen,playAgainstComputer,player1IsWhite);
-//                setVisible(false);
-//                dispose();
-
-//                option 2: new GameSetupGUI object, invoke new game programmatically.
                 GameSetupGUI.setMyGameSetupGUI(new GameSetupGUI());
                 setVisible(false);//hiding gameplayGUI
                 dispose();// disposing gameplayGUI
