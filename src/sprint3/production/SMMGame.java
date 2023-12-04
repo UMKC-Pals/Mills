@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 public class SMMGame extends Game{
-    public SMMGame(boolean playAgainstComputer) {
+    public SMMGame(boolean playAgainstComputerPassed) {
+        this.playAgainstComputer=playAgainstComputerPassed;
         SMMGame.setPlayer1Count(6);
         SMMGame.setPlayer2Count(6);
         dirAndFileSetup();
@@ -15,6 +16,10 @@ public class SMMGame extends Game{
     @Override
     public boolean checkMillFormation(ArrayList<Integer> playersList, HashSet<TreeSet<Integer>> formedMills) {
         return false;
+    }
+
+    public  void doComputerMoves(){
+        return;
     }
 
     @Override

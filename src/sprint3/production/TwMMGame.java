@@ -5,7 +5,8 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 public class TwMMGame extends Game{
-    public TwMMGame(boolean playAgainstComputer) {
+    public TwMMGame(boolean playAgainstComputerPassed) {
+        this.playAgainstComputer=playAgainstComputerPassed;
         TwMMGame.setPlayer1Count(12);
         TwMMGame.setPlayer2Count(12);
         dirAndFileSetup();
@@ -20,5 +21,10 @@ public class TwMMGame extends Game{
     @Override
     public boolean checkGameOver() {
         return false;
+    }
+
+    @Override
+    public void doComputerMoves() {
+        return;
     }
 }

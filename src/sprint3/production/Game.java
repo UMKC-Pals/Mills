@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.TreeSet;
 import static sprint3.production.Board.*;
 
@@ -61,6 +62,8 @@ public abstract class Game {
 
     private static int player1Count=0;// the number of new un-used pieces player1
     private static int player2Count=0;// the number of new un-used pieces player2
+
+    boolean playAgainstComputer=false;
 
     public static void setPlayer1Count(int player1Count) {
         Game.player1Count = player1Count;
@@ -163,6 +166,8 @@ public abstract class Game {
 
                 checkGameOver();
 
+                doComputerMoves();//
+
                 return true;
             }
 
@@ -185,6 +190,9 @@ public abstract class Game {
                     GamePlayGUI.updatePlayerTurnLabel();
 
                     player2GameState=gameStates.REMOVE;
+
+
+                    doComputerMoves();//
 
                     return true;
                 }
@@ -215,6 +223,9 @@ public abstract class Game {
             movePickIdx = idx;
             player2GameState=gameStates.MOVEDROP;
             System.out.println("movePick player2"+idx);
+
+            doComputerMoves();//
+
             return true;
         }
         return false;
@@ -255,6 +266,8 @@ public abstract class Game {
             //check for mill formation,  remove if formed
             if(checkMillFormation(player1Pieces, player1Mills)){
                 player1GameState=gameStates.REMOVE;
+
+
                 return true;
             }
 
@@ -264,6 +277,8 @@ public abstract class Game {
             GamePlayGUI.updatePlayerTurnLabel();
             movePickIdx=-1;
             System.out.println("Player 1 state: "+player1GameState);
+
+            doComputerMoves();//
 
             return true;
         }
@@ -291,6 +306,10 @@ public abstract class Game {
             //check for mill formation,  remove if formed
             if(checkMillFormation(player2Pieces, player2Mills)){
                 player2GameState=gameStates.REMOVE;
+
+
+                doComputerMoves();
+
                 return true;
             }
 
@@ -315,6 +334,9 @@ public abstract class Game {
             flyPickIdx = idx;
             player2GameState=gameStates.FLYDROP;
             System.out.println("flyPick player2"+idx);
+
+            doComputerMoves();
+
             return true;
         }
         return false;
@@ -361,6 +383,9 @@ public abstract class Game {
             GamePlayGUI.updatePlayerTurnLabel();
             flyPickIdx=-1;
             player1GameState=gameStates.FLYPICK;
+
+            doComputerMoves();//
+
             return true;
         }
         if(!isPlayer1Turn() && isDropSelectedButtonEmpty){
@@ -384,6 +409,9 @@ public abstract class Game {
             //check for mill formation,  remove if formed
             if(checkMillFormation(player2Pieces, player2Mills)){
                 player2GameState=gameStates.REMOVE;
+
+                doComputerMoves();//
+
                 return true;
             }
 
@@ -462,6 +490,9 @@ public abstract class Game {
             }
 
             checkGameOver();
+
+            doComputerMoves();//
+
             return true;
         }
         else if(!isPlayer1Turn  && player1Pieces.contains(idx)){
@@ -593,5 +624,10 @@ public abstract class Game {
     public abstract boolean checkMillFormation(ArrayList<Integer> playersPieces, HashSet<TreeSet<Integer>> formedMills);//
 
     public abstract boolean checkGameOver();//
+
+    public abstract void doComputerMoves();//
+
+    Random rndm = new Random();
+
 
 }

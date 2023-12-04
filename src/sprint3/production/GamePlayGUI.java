@@ -55,8 +55,20 @@ public class GamePlayGUI extends JFrame{
         if(numberOfMen==3){
             this.setTitle("Mills - 3 Men's Morris Game - by Pals");
             imageUrl=GamePlayGUI.class.getResource("/threeBoardNoBg.png");
-            tmmGame = new TMMGame(playAgainstComputer);
+            tmmGame = new TMMGame(playAgainstComputer,player1IsWhite);
             currentGame=tmmGame;
+            for(int i=6;i<=8;i++){
+                this.add(tmmGame.tmmBoard.roundBtnArray[i]);
+            }// 6 - 8
+            for(int i=11;i<=12;i++){
+                this.add(tmmGame.tmmBoard.roundBtnArray[i]);
+            }// 11, 12
+            for(int i=15;i<=17;i++){
+                this.add(tmmGame.tmmBoard.roundBtnArray[i]);
+            }// 15 - 17
+            for(int i=24;i<=24;i++){
+                this.add(tmmGame.tmmBoard.roundBtnArray[i]);
+            }// 24
 
 
         }

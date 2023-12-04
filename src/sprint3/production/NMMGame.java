@@ -1,19 +1,28 @@
 package sprint3.production;
 
+import com.sun.source.tree.Tree;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class NMMGame extends Game{
     Board nmmBoard;
 
-    public NMMGame(boolean playAgainstComputer, boolean player1IsWhite) {
+    public NMMGame(boolean playAgainstComputerPassed, boolean player1IsWhite) {
 
+        this.playAgainstComputer=playAgainstComputerPassed;
+
+
+        setPlayer1Turn(true);
+        //reset variable after every new constructor call; works for new game functionality
 
         if(player1IsWhite){
             player1Color=myWhite;
             player2Color=myBlack;
+
         }
         else{
             player1Color=myBlack;
@@ -77,7 +86,9 @@ public class NMMGame extends Game{
                         flyDrop(j);
                     }
                     else if(pl1Remove || pl2Remove){
-                        System.out.println("calling remove by player");
+                        System.out.println("calling remove by player: "+(isPlayer1Turn()?"player1":"player2"));
+                        System.out.println("remove: "+j);
+
                         removePiece(isPlayer1Turn() ,j);
                     }
                 }// end of actionPerformed
@@ -341,5 +352,196 @@ public class NMMGame extends Game{
         //it is > 50, then declare draw and end the game.
         return false;
     }
+
+
+//computer moves for NMM
+    public void doComputerMoves(){
+
+
+        if(playAgainstComputer){
+            //place state - player 2
+            if(player2GameState==gameStates.PLACE && !isPlayer1Turn()){
+                ArrayList<Integer> emptyPieces=new ArrayList<>();
+                for(int i=0;i<24;i++){
+                    emptyPieces.add(i);
+                }
+                emptyPieces.removeAll(player1Pieces);
+                emptyPieces.removeAll(player2Pieces);
+
+
+                for(TreeSet<Integer> mill: nmmBoard.nmmMills) {
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+
+                    int c = 0, emptyPc = -1;
+                    //priority 1 - complete computer player mill
+                    for (Integer pc : thisMill) {
+                        if (player2Pieces.contains(pc)) {
+                            c++;
+                        }
+                        if (!player2Pieces.contains(pc) && !player1Pieces.contains(pc)) {
+                            emptyPc = pc;
+                        }
+
+                    }
+                    if (c == 2 && emptyPc != -1) {
+                        nmmBoard.roundBtnArray[emptyPc].doClick();
+                        return;
+                    }
+                }
+                for(TreeSet<Integer> mill: nmmBoard.nmmMills){
+                    ArrayList<Integer> thisMill=new ArrayList<>(mill);
+
+                    int c=0,emptyPc=-1;
+
+                    //priority 2 - block opponent player mill
+                    for(Integer pc:thisMill){
+                        if(player1Pieces.contains(pc)) {
+                            c++;
+                        }
+                        if(!player1Pieces.contains(pc) && !player2Pieces.contains(pc)){
+                            emptyPc=pc;
+                        }
+
+                    }
+                    if(c==2 && emptyPc!=-1){
+                        nmmBoard.roundBtnArray[emptyPc].doClick();
+                        return;
+                    }
+
+                }
+                //priority 3 - randomize the next place
+                // creating object
+                int rndmElem = emptyPieces.get(rndm.nextInt(emptyPieces.size()));
+                nmmBoard.roundBtnArray[rndmElem].doClick();
+                return;
+
+            }
+            //end of place state
+
+            //movepick & movedrop
+            if(player2GameState==gameStates.MOVEPICK && !isPlayer1Turn()){
+                //1 - make our mill
+
+                //2 - block opponent mill
+
+                //3 - random move by looping on all pieces
+            }//end of movepick & movedrop
+
+            //flypick & flydrop
+            if(player2GameState==gameStates.FLYPICK && !isPlayer1Turn()){
+                //1 - make our mill
+
+                //2 - block opponent mill
+
+                //3 - random fly
+            }//end of flypick and flydrop
+
+            //remove
+            if(player2GameState==gameStates.REMOVE && !isPlayer1Turn()) {
+
+                ArrayList<Integer> emptyPieces = new ArrayList<>();
+                for (int i = 0; i < 24; i++) {
+                    emptyPieces.add(i);
+                }
+                emptyPieces.removeAll(player1Pieces);
+                emptyPieces.removeAll(player2Pieces);
+
+
+
+                for (TreeSet<Integer> mill : nmmBoard.nmmMills) {
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+
+                    int c = 0;
+                    //remove case 1- which has 2 pieces in mill of player1 and 3rd piece is empty
+                    for (Integer pc : mill) {
+                        if (player1Pieces.contains(pc)) {
+                            c++;
+                        } else if (!player1Pieces.contains(pc) && !player2Pieces.contains(pc)) {
+                            thisMill.remove(pc);
+                        }
+                    }
+                    if (c == 2 && thisMill.size()==2) {
+                        ArrayList<Integer> player1millItems = new ArrayList<>();
+                        for (TreeSet<Integer> ts : getPlayer1Mills()) {
+                            player1millItems.addAll(ts);
+                        }
+                        thisMill.removeAll(player1millItems);
+                        if (thisMill.size() > 0) {
+                            System.out.println("remove called case1: ");
+
+                            int rmvPc = thisMill.get(rndm.nextInt(thisMill.size()));
+                            System.out.println("removing piece: " + rmvPc);
+                            nmmBoard.roundBtnArray[rmvPc].doClick();
+                            return;
+                        }
+
+                    }
+                }
+                for(TreeSet<Integer> mill : nmmBoard.nmmMills) {
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+
+                    int c = 0;
+                    //remove where 2 pieces of computer & 3rd piece is player1
+
+                    int flag=-1;
+                    for (Integer pc : mill) {
+                        if (player2Pieces.contains(pc)) {
+                            c++;
+                        }
+                        else if(player1Pieces.contains(pc)){
+                            flag=pc;
+                        }
+
+                    }
+                    if (c == 2 && flag!=-1) {
+                        ArrayList<Integer> player1millItems = new ArrayList<>();
+                        for (TreeSet<Integer> ts : getPlayer1Mills()) {
+                            player1millItems.addAll(ts);
+                        }
+
+                        if(!player1millItems.contains(flag)){
+                            System.out.println("remove called case2");
+                            nmmBoard.roundBtnArray[flag].doClick();
+                            return;
+                        }
+
+                    }
+
+                }
+
+
+                ArrayList<Integer> player1millItems = new ArrayList<>();
+                for (TreeSet<Integer> ts : getPlayer1Mills()) {
+                    player1millItems.addAll(ts);
+                }
+
+
+                //remove - randomize piece which is not in mill
+                ArrayList<Integer> tempPlayer1Items=new ArrayList<>(player1Pieces);
+                tempPlayer1Items.removeAll(player1millItems);
+                if(tempPlayer1Items.size()>0){
+                    int rndmElem = tempPlayer1Items.get(rndm.nextInt(tempPlayer1Items.size()));
+                    System.out.println("removing by random from NOT in mill: "+rndmElem);
+                    nmmBoard.roundBtnArray[rndmElem].doClick();
+                    return;
+                }
+
+
+                //remove - random piece from any mill
+                if(tempPlayer1Items.size()==0){
+                    int rndmElem = player1millItems.get(rndm.nextInt(player1millItems.size()));
+                    System.out.println("removing by random from in mill: "+rndmElem);
+                    nmmBoard.roundBtnArray[rndmElem].doClick();
+                    return;
+                }
+
+            }//end of remove
+            
+
+        }//end of if playAgainstComputer
+
+    }//end of method doComputerMoves
+
+
 //====================================end======================================
 }// end of class
