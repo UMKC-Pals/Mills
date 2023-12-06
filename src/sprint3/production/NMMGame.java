@@ -536,7 +536,7 @@ public class NMMGame extends Game{
                 }
 
             }//end of remove
-            
+
 
         }//end of if playAgainstComputer
 
