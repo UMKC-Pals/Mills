@@ -299,9 +299,12 @@ public class GameTests {
         int to = 4;
         Board.roundBtnArray[to].currentBtnState = buttonStates.EMPTY;
         game.setIsDropSelectedButtonEmpty(true);
-        Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            assertTrue(game.flyDrop(to));
-        });
+
+        game.flyPick(1);
+        assertTrue(game.flyDrop(4));
+        //Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        //    assertTrue(game.flyDrop(to));
+        //});
     }
 
     //acceptance test. Testing flyDrop(int)
@@ -316,9 +319,11 @@ public class GameTests {
         int to = 19;
         Board.roundBtnArray[to].currentBtnState = buttonStates.EMPTY;
         game.setIsDropSelectedButtonEmpty(true);
-        Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            assertTrue(game.flyDrop(to));
-        });
+        game.flyPick(10);
+        assertTrue(game.flyDrop(19));
+        //Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        //    assertTrue(game.flyDrop(to));
+        //});
     }
 
     @Test
@@ -329,10 +334,41 @@ public class GameTests {
         int from = 20;
         int to = 3;
         Board.roundBtnArray[from].currentBtnState = buttonStates.PLAYER1;
-        game.player1GameState = gameStates.MOVEPICK;
+        game.player1GameState = gameStates.FLYPICK;
         Board.roundBtnArray[to].currentBtnState = buttonStates.PLAYER2;
         game.setIsDropSelectedButtonEmpty(false);
-        assertFalse(game.moveDrop(to));
+        game.flyPick(from);
+        assertFalse(game.flyDrop(to));
     }
     //-----------------------------END FLY DROP TESTS-----------------------------------------
+    @Test
+    public void testRemovePiece(){
+        game.setPlayer1Turn(true);
+        int from  = 3;
+        int to = 10;
+        Board.roundBtnArray[from].currentBtnState = buttonStates.PLAYER1;
+        game.player1GameState = gameStates.MOVEDROP;
+        Board.roundBtnArray[to].currentBtnState = buttonStates.EMPTY;
+        game.setIsDropSelectedButtonEmpty(true);
+        game.movePick(from);
+        game.moveDrop(to);
+        Board.roundBtnArray[9].currentBtnState = buttonStates.PLAYER1;
+        Board.roundBtnArray[4].currentBtnState = buttonStates.PLAYER1;
+        Board.roundBtnArray[13].currentBtnState = buttonStates.PLAYER2;
+        game.player1GameState = gameStates.REMOVE;
+        game.player2Pieces.add(13);
+        game.player2Pieces.add(0);
+        game.player2Pieces.add(21);
+        game.player2Pieces.add(1);
+        assertTrue(game.removePiece(true, 13));
+
+    }
+    //ac 9.1
+    @Test
+    public void testForGameOver(){
+        game.player1Pieces.add(21);
+        game.player1Pieces.add(23);
+        game.player1GameState = gameStates.FLYPICK;
+        assertTrue(game.checkGameOver());
+    }
 }

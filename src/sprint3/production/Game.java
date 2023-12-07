@@ -12,8 +12,15 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.TreeSet;
 import static sprint3.production.Board.*;
+import java.nio.file.*;
+
+
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public abstract class Game {
+
     Color player1Color, player2Color;
     final Color myBlack = new Color(0,0,0);
     final Color myWhite = new Color(221,186,126);
@@ -23,7 +30,6 @@ public abstract class Game {
     //-----------------------------------------------------
     private HashSet<TreeSet<Integer>> player1Mills = new HashSet<>();
     private HashSet<TreeSet<Integer>> player2Mills = new HashSet<>();
-
 
     public HashSet<TreeSet<Integer>> getPlayer1Mills() {
         return player1Mills;
@@ -135,7 +141,13 @@ public abstract class Game {
 
     public gameStates player2GameState=gameStates.PLACE;// add public for testing purpose
 
+    protected JSONArray jsonArray = new JSONArray();//olena ????? delete
+
+    public static String logFilePath;//olena
+
     public boolean placePiece(int idx, boolean player1IsWhite){
+
+
         if (Board.roundBtnArray[idx].currentBtnState == buttonStates.EMPTY) {
 
             if (Game.isPlayer1Turn() && Game.reducePlayer1count()) {
@@ -143,25 +155,34 @@ public abstract class Game {
                 Board.roundBtnArray[idx].setBackground(player1Color);
 
                 player1Pieces.add(idx);
-                System.out.println("player 1 pieces: "+player1Pieces);
+
                 Board.roundBtnArray[idx].setBounds(285 + x[idx] - (Board.dim2 / 2), y[idx] - (dim1 / 2), Board.dim2, Board.dim2);
                 GamePlayGUI.updatePlayerCountLabels(player1IsWhite);
 
                 if(getPlayer1Count()==0){
+                    System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.MOVEPICK);
                     player1GameState=gameStates.MOVEPICK;
+
+
                 }
 
                 if(checkMillFormation(player1Pieces, player1Mills)){
 
                     Game.setPlayer1Turn(true);
-                    GamePlayGUI.updatePlayerTurnLabel();
 
+                    GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+                    System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.REMOVE);
                     player1GameState=gameStates.REMOVE;
+
+
 
                     return true;
                 }
                 Game.setPlayer1Turn(false);
-                GamePlayGUI.updatePlayerTurnLabel();
+                GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
 
 
                 checkGameOver();
@@ -176,20 +197,22 @@ public abstract class Game {
                 Board.roundBtnArray[idx].setBackground(player2Color);
 
                 player2Pieces.add(idx);
-                System.out.println("player 2 pieces: "+player2Pieces);
                 Board.roundBtnArray[idx].setBounds(285 + x[idx] - (Board.dim2 / 2), y[idx] - (dim1 / 2), Board.dim2, Board.dim2);
                 GamePlayGUI.updatePlayerCountLabels(player1IsWhite);
 
                 if(getPlayer2Count()==0){
+                    System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.MOVEPICK);
                     player2GameState=gameStates.MOVEPICK;
                 }
 
                 if(checkMillFormation(player2Pieces, player2Mills)){
 
                     Game.setPlayer1Turn(false);
-                    GamePlayGUI.updatePlayerTurnLabel();
+                    GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
 
+                    System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.REMOVE);
                     player2GameState=gameStates.REMOVE;
+
 
 
                     doComputerMoves();//
@@ -198,7 +221,11 @@ public abstract class Game {
                 }
 
                 Game.setPlayer1Turn(true);
-                GamePlayGUI.updatePlayerTurnLabel();
+                GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
+
+
 
                 checkGameOver();//
 
@@ -210,19 +237,26 @@ public abstract class Game {
 
     public boolean movePick(int idx) {
         if(isPlayer1Turn() && player1Pieces.contains(idx)){
-            System.out.println("Player1 state: "+player1GameState);
+
 
             movePickIdx=idx;
+
+            System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.MOVEDROP);
             player1GameState=gameStates.MOVEDROP;
-            System.out.println("movePick player1"+idx);
+
+            System.out.println("movePick by player1: "+idx);
             return true;
         }
         else if(!isPlayer1Turn() && player2Pieces.contains(idx)) {
-            System.out.println("Player2 state: "+player2GameState);
+
 
             movePickIdx = idx;
+
+            System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.MOVEDROP);
             player2GameState=gameStates.MOVEDROP;
-            System.out.println("movePick player2"+idx);
+
+
+            System.out.println("movePick by player2: "+idx);
 
             doComputerMoves();//
 
@@ -244,6 +278,8 @@ public abstract class Game {
         isDropSelectedButtonEmpty=Board.roundBtnArray[dropIdx].currentBtnState==buttonStates.EMPTY;// class field
         isAdjacentPosition = Board.getEdgeExists(movePickIdx,dropIdx);// class field
 
+
+
         if(isPlayer1Turn() && isAdjacentPosition && isDropSelectedButtonEmpty){
             //updating list variable
             player1Pieces.remove(Integer.valueOf(movePickIdx));
@@ -253,6 +289,8 @@ public abstract class Game {
             Board.roundBtnArray[movePickIdx].currentBtnState = buttonStates.EMPTY;
             Board.roundBtnArray[movePickIdx].setBackground(Color.WHITE);
             Board.roundBtnArray[movePickIdx].setBounds(285+x[movePickIdx]-(dim1/2),y[movePickIdx],dim1,dim1);
+
+
 
             //updating gui buttons-change moveDrop btn-pl1
             Board.roundBtnArray[dropIdx].currentBtnState = buttonStates.PLAYER1;
@@ -265,7 +303,10 @@ public abstract class Game {
 
             //check for mill formation,  remove if formed
             if(checkMillFormation(player1Pieces, player1Mills)){
+                System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.REMOVE);
                 player1GameState=gameStates.REMOVE;
+
+
 
 
                 return true;
@@ -274,9 +315,16 @@ public abstract class Game {
 
 
             Game.setPlayer1Turn(false);
-            GamePlayGUI.updatePlayerTurnLabel();
+            GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
             movePickIdx=-1;
-            System.out.println("Player 1 state: "+player1GameState);
+
+            System.out.println("Changed player 1 from: "+player1GameState+" to: "+gameStates.MOVEPICK);
+            player1GameState=gameStates.MOVEPICK;
+
+
+
+
+
 
             doComputerMoves();//
 
@@ -292,6 +340,10 @@ public abstract class Game {
             Board.roundBtnArray[movePickIdx].setBackground(Color.WHITE);
             Board.roundBtnArray[movePickIdx].setBounds(285+x[movePickIdx]-(dim1/2),y[movePickIdx],dim1,dim1);
 
+
+
+
+
             //updating gui buttons-change moveDrop btn-pl2
             Board.roundBtnArray[dropIdx].currentBtnState = buttonStates.PLAYER2;
             Board.roundBtnArray[dropIdx].setBackground(player2Color);
@@ -305,7 +357,12 @@ public abstract class Game {
 
             //check for mill formation,  remove if formed
             if(checkMillFormation(player2Pieces, player2Mills)){
+
+
+                System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.REMOVE);
                 player2GameState=gameStates.REMOVE;
+
+
 
 
                 doComputerMoves();
@@ -316,9 +373,15 @@ public abstract class Game {
 
 
             Game.setPlayer1Turn(true);
-            GamePlayGUI.updatePlayerTurnLabel();
+
+            System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.MOVEPICK);
+            player2GameState=gameStates.MOVEPICK;
+
+            GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
             movePickIdx=-1;
-            System.out.println("Player 2 state: "+player2GameState);
+
+
+
             return true;
         }
         return false;
@@ -326,14 +389,22 @@ public abstract class Game {
     public boolean flyPick(int idx){
         if(isPlayer1Turn() && player1Pieces.contains(idx)){
             flyPickIdx=idx;
+
+            System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.FLYDROP);
             player1GameState=gameStates.FLYDROP;
-            System.out.println("flyPick player1"+idx);
+
+            System.out.println("flyPick player1: "+idx);
             return true;
         }
         else if(!isPlayer1Turn() && player2Pieces.contains(idx)) {
             flyPickIdx = idx;
+
+
+            System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.FLYDROP);
             player2GameState=gameStates.FLYDROP;
-            System.out.println("flyPick player2"+idx);
+
+
+            System.out.println("flyPick player2: "+idx);
 
             doComputerMoves();
 
@@ -354,6 +425,7 @@ public abstract class Game {
         //flyDrop
         boolean isDropSelectedButtonEmpty=Board.roundBtnArray[dropIdx].currentBtnState==buttonStates.EMPTY;
 
+
         if(isPlayer1Turn()  && isDropSelectedButtonEmpty){
             //updating list variable
             player1Pieces.remove(Integer.valueOf(flyPickIdx));
@@ -363,6 +435,10 @@ public abstract class Game {
             Board.roundBtnArray[flyPickIdx].currentBtnState = buttonStates.EMPTY;
             Board.roundBtnArray[flyPickIdx].setBackground(Color.WHITE);
             Board.roundBtnArray[flyPickIdx].setBounds(285+x[flyPickIdx]-(dim1/2),y[flyPickIdx],dim1,dim1);
+
+
+
+
 
             //updating gui buttons-change flyDrop btn-pl1
             Board.roundBtnArray[dropIdx].currentBtnState = buttonStates.PLAYER1;
@@ -374,14 +450,34 @@ public abstract class Game {
 
             //check for mill formation,  remove if formed
             if(checkMillFormation(player1Pieces, player1Mills)){
+
+                System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.REMOVE);
                 player1GameState=gameStates.REMOVE;
+
+
+
+
+
                 return true;
             }
 
 
             Game.setPlayer1Turn(false);
-            GamePlayGUI.updatePlayerTurnLabel();
+
+
+            System.out.println("Changed player 1 from: "+player1GameState+" to: "+gameStates.FLYPICK);
+            player1GameState=gameStates.FLYPICK;
+
+            GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
+
+
+
+
             flyPickIdx=-1;
+
+            System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.FLYPICK);
             player1GameState=gameStates.FLYPICK;
 
             doComputerMoves();//
@@ -398,6 +494,11 @@ public abstract class Game {
             Board.roundBtnArray[flyPickIdx].setBackground(Color.WHITE);
             Board.roundBtnArray[flyPickIdx].setBounds(285+x[flyPickIdx]-(dim1/2),y[flyPickIdx],dim1,dim1);
 
+
+
+
+
+
             //updating gui buttons-change flyDrop btn-pl2
             Board.roundBtnArray[dropIdx].currentBtnState = buttonStates.PLAYER2;
             Board.roundBtnArray[dropIdx].setBackground(player2Color);
@@ -408,17 +509,37 @@ public abstract class Game {
 
             //check for mill formation,  remove if formed
             if(checkMillFormation(player2Pieces, player2Mills)){
+
+                System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.REMOVE);
                 player2GameState=gameStates.REMOVE;
+
+
+
+
 
                 doComputerMoves();//
 
                 return true;
             }
 
+
             Game.setPlayer1Turn(true);
-            GamePlayGUI.updatePlayerTurnLabel();
-            flyPickIdx=-1;
+
+            System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.FLYPICK);
             player2GameState=gameStates.FLYPICK;
+
+
+            GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
+
+            flyPickIdx=-1;
+
+            System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.FLYPICK);
+            player2GameState=gameStates.FLYPICK;
+
+
+
             return true;
         }
         return false;
@@ -446,6 +567,8 @@ public abstract class Game {
             }
             System.out.println("inside remove, player 1 removing");
 
+
+            System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.REMOVE);
             player1GameState = gameStates.REMOVE;
 
             player2Pieces.remove(Integer.valueOf(idx));
@@ -457,35 +580,47 @@ public abstract class Game {
             checkMillFormation(player2Pieces,getPlayer2Mills());
 
             setPlayer1Turn(false);
-            GamePlayGUI.updatePlayerTurnLabel();
+            GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
+
+
+
 
             if(player1Count>0){
+
+                System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.PLACE);
                 player1GameState=gameStates.PLACE;
-                System.out.println("Player 1 State:"+player1GameState);
+
             }
             else if (player1Count==0 && player1Pieces.size()>3) {
+                System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.MOVEPICK);
                 player1GameState=gameStates.MOVEPICK;
-                System.out.println("Player 1 State:"+player1GameState);
+
 
             }
             else if(player1Count==0 && player1Pieces.size()==3){
+                System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.FLYPICK);
                 player1GameState=gameStates.FLYPICK;
-                System.out.println("Player 1 State:"+player1GameState);
+
 
             }
             if(player2Count>0){
+                System.out.println("Changed Player 2 from: "+player2GameState+" to: "+gameStates.PLACE);
                 player2GameState=gameStates.PLACE;
-                System.out.println("Player 2 State:"+player2GameState);
+
 
             }
             else if (player2Count==0 && player2Pieces.size()>3) {
+                System.out.println("Changed Player 2 from: "+player2GameState+" to: "+gameStates.MOVEPICK);
                 player2GameState=gameStates.MOVEPICK;
-                System.out.println("Player 2 State:"+player2GameState);
+
 
             }
             else if(player2Count==0 && player2Pieces.size()==3){
+                System.out.println("Changed Player 2 from: "+player2GameState+" to: "+gameStates.FLYPICK);
                 player2GameState=gameStates.FLYPICK;
-                System.out.println("Player 2 State:"+player2GameState);
+
 
             }
 
@@ -508,6 +643,8 @@ public abstract class Game {
             }
             System.out.println("inside remove, player 2 removing");
 
+
+            System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.REMOVE);
             player2GameState = gameStates.REMOVE;
 
             player1Pieces.remove(Integer.valueOf(idx));
@@ -519,36 +656,47 @@ public abstract class Game {
             checkMillFormation(player2Pieces,getPlayer2Mills());
 
             setPlayer1Turn(true);
-            GamePlayGUI.updatePlayerTurnLabel();
+            GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
+
+
 
             if(player1Count>0){
+                System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.PLACE);
                 player1GameState=gameStates.PLACE;
-                System.out.println("Player 1 State:"+player1GameState);
+
 
             }
             else if (player1Count==0 && player1Pieces.size()>3) {
+                System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.MOVEPICK);
                 player1GameState=gameStates.MOVEPICK;
-                System.out.println("Player 1 State:"+player1GameState);
+
 
             }
             else if(player1Count==0 && player1Pieces.size()==3){
+                System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.FLYPICK);
                 player1GameState=gameStates.FLYPICK;
-                System.out.println("Player 1 State:"+player1GameState);
+
+
 
             }
             if(player2Count>0){
+                System.out.println("Changed Player 2 from: "+player2GameState+" to: "+gameStates.PLACE);
                 player2GameState=gameStates.PLACE;
-                System.out.println("Player 2 State:"+player2GameState);
+
 
             }
             else if (player2Count==0 && player2Pieces.size()>3) {
+                System.out.println("Changed Player 2 from: "+player2GameState+" to: "+gameStates.MOVEPICK);
                 player2GameState=gameStates.MOVEPICK;
-                System.out.println("Player 2 State:"+player2GameState);
+
 
             }
             else if(player2Count==0 && player2Pieces.size()==3){
+                System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.FLYPICK);
                 player2GameState=gameStates.FLYPICK;
-                System.out.println("Player 2 State:"+player2GameState);
+
 
             }
             checkGameOver();
@@ -558,67 +706,63 @@ public abstract class Game {
         return false;
     }
 
+    File gameLogFile;
     public boolean dirAndFileSetup(){
-
-        String homeDir= System.getProperty("user.home");
-        Path gameDirPath= Paths.get(homeDir,"MillsData");
-        boolean gameDirExists=false;
-
-        if(Files.exists(gameDirPath) == false){
-            File gameDir = new File(String.valueOf(gameDirPath));
-            try{
-                gameDirExists=gameDir.mkdir();
-            }
-            catch (Throwable e){
-                System.out.println("Exception in creating Game Directory: ");
-                e.printStackTrace();
-                return false;
-            }
-
-        }
-        else{
-            gameDirExists=true;
-        }
-
+        //game file in src dir setup
         boolean gameFileExists = false;
-
-        if(gameDirExists){
-            Path gameLogFilePath = Paths.get(String.valueOf(gameDirPath),  "gameLogFile.txt");
-            gameFileExists = Files.exists(gameLogFilePath);
-
-            File gameLogFile= new File(String.valueOf(gameLogFilePath));
-
+//
+              Path gameLogFilePath = Paths.get("src/sprint3/production","gameLogFile.json");
+              gameFileExists = Files.exists(gameLogFilePath);
+              gameLogFile= new File(String.valueOf(gameLogFilePath));
             if(gameFileExists == false){
-//            gameLogFile = new File(String.valueOf(gameLogFilePath));
                 try {
-                    boolean createdFile =  gameLogFile.createNewFile();
-                } catch (IOException e) {
+                    gameLogFile.createNewFile();
+                    gameLogFile.setWritable(true);
+                    gameLogFile.setReadable(true);
+
+                    FileWriter writer = new FileWriter(gameLogFile);
+
+                    // Write text to the file
+                    writer.write("{\"moves\":[]}");
+
+                    // Close the writer
+                    writer.close();
+
+                }
+                catch (IOException e) {
                     System.out.println("Exception in creating Game File: ");
                     e.printStackTrace();
                     return false;
                 }
-                boolean writePermission = gameLogFile.setWritable(true);
-                boolean readPermission = gameLogFile.setReadable(true);
-
-
-                gameFileExists=true;
             }
-
-            if(gameLogFile.canRead() && gameLogFile.canWrite()){
-                try{
-                    System.out.println("Game log file entered.");
-                    FileWriter writerObj = new FileWriter(gameLogFile,true);
-                    writerObj.write("123\n");
-                    writerObj.close();
+            else{
+                //first enpty the file
+                try {
+                    Files.newOutputStream(gameLogFilePath, StandardOpenOption.TRUNCATE_EXISTING).close();
                 }
-                catch(IOException e){
-                    System.out.println("File write error.");
-                    e.printStackTrace();
-                    return false;
+                catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
+                //now setup the file
+                FileWriter writer = null;
+                try {
+                    gameLogFile.createNewFile();
+                    gameLogFile.setWritable(true);
+                    gameLogFile.setReadable(true);
+
+                    writer = new FileWriter(gameLogFile);
+                    // Write text to the file
+                    writer.write("{\"moves\":[]}");
+                    // Close the writer
+                    writer.close();
+                }
+                catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
             }
-        }
+
         return true;
     }
     public abstract boolean checkMillFormation(ArrayList<Integer> playersPieces, HashSet<TreeSet<Integer>> formedMills);//
@@ -630,4 +774,10 @@ public abstract class Game {
     Random rndm = new Random();
 
 
+    public Color getPlayer1Color() {
+        return player1Color;
+    }
+    public Color getPlayer2Color(){
+        return player2Color;
+    }
 }

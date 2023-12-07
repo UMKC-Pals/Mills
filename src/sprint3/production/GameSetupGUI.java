@@ -28,9 +28,9 @@ public class GameSetupGUI extends JFrame {
         }
     }
 
-    private GamePlayGUI xmmGameGUI;
+    private static GamePlayGUI xmmGameGUI;
 
-    public GamePlayGUI getXmmGameGUI() {
+    public static GamePlayGUI getXmmGameGUI() {
         return xmmGameGUI;
     }
 

@@ -6,6 +6,17 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.awt.*;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
+import java.util.Scanner;
+import java.util.TimerTask;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+
+
 public class GamePlayGUI extends JFrame{
 
     private JPanel leftPanel;
@@ -17,9 +28,27 @@ public class GamePlayGUI extends JFrame{
     private static JLabel currentTurn;
     private JLabel mediaButtonLabel; // Label for buttons
     private JButton[] mediaButtons; // Array of buttons
-    private JCheckBox recordButton; // Button for recording
+    public static JCheckBox recordButton; // Button for recording
     private JButton replayButton; // Button for replaying
     private JButton newGameButton;
+
+
+    public JRadioButton getAutoReplay() {//olena
+        return autoReplay;
+    }//for testing purpose
+
+    private JRadioButton autoReplay;//olena
+    private JRadioButton manualReplay;//olena
+    private Timer timer;//olena
+    private JSONArray array;//olena
+
+    public static boolean record = false;//olena
+    public URL imageUrl;
+    private int menNum;//olena
+    private String player1LastPlace, player2LastPlace;//olena
+    private int currentMove = 0;//olena
+    private int previousMove = 0;//olena
+
 
 
     NMMGame nmmGame;
@@ -39,6 +68,9 @@ public class GamePlayGUI extends JFrame{
 
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setSize(1200,800);
+
+
+
         URL imageUrl = null;
         ImageIcon imageIcon = null;
 
@@ -132,36 +164,6 @@ public class GamePlayGUI extends JFrame{
 
         this.add(currentTurn);
 // buttons
-        // Create and initialize an array of buttons
-        mediaButtonLabel = new JLabel();
-        mediaButtons = new JButton[5];
-
-        int [] c = {0x23ee,0x23ea,0x23f5,0x23e9,0x23ed};
-
-        for (int i = 0; i < mediaButtons.length; i++) {
-            mediaButtons[i] = new JButton(Character.toString((char)c[i]));
-            mediaButtons[i].setFont(new Font("Arial", Font.PLAIN, 40));
-            mediaButtons[i].setPreferredSize(new Dimension(50, 50)); // Adjust the size as needed
-
-            mediaButtonLabel.add(mediaButtons[i]); // Add each button to the label
-        }
-        mediaButtonLabel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-
-        mediaButtonLabel.setBounds(300, 680, 600, 50);
-
-        this.add(mediaButtonLabel);
-
-// Record and replay buttons
-        recordButton = new JCheckBox("Record");
-        replayButton = new JButton("Replay");
-
-        recordButton.setBounds(10,660,80,40);
-        replayButton.setBounds(10,700,80,40);
-
-        this.add(recordButton);
-        this.add(replayButton);
-
-        GamePlayGUI thisGameplayGUI=this;
 
 // New game
         newGameButton= new JButton("New Game");
@@ -196,5 +198,10 @@ public class GamePlayGUI extends JFrame{
     }
     public static void updatePlayerTurnLabel() {
         currentTurn.setText("Current Turn : "+(Game.isPlayer1Turn() ?"Player 1":"Player 2"));
+        
+    }
+
+    public JSONArray getArray() {
+         return array;
     }
 }

@@ -8,8 +8,13 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import org.json.JSONArray;
+
 public class NMMGame extends Game{
     Board nmmBoard;
+
+    boolean setComputerMoveDropLocation=false;
+    int computerMoveDropLocation;
 
     public NMMGame(boolean playAgainstComputerPassed, boolean player1IsWhite) {
 
@@ -121,6 +126,8 @@ public class NMMGame extends Game{
 
         //check for new mills
         Integer lastAddedElement = playersPieces.get(playersPieces.size()-1);
+        System.out.println("player 1 pieces: "+player1Pieces);
+        System.out.println("player 2 pieces: "+player2Pieces);
         System.out.println("checkMill called");
         for (TreeSet<Integer> mill : nmmBoard.getNmmMills()) {//each mill in set of all possible known mills
             if (mill.contains(lastAddedElement) && playersPieces.containsAll(mill) && !formedMills.contains(mill)){
@@ -130,8 +137,7 @@ public class NMMGame extends Game{
                     setPlayer1Mills(formedMills);
                     System.out.println("found new mill. player1");
                     System.out.println("new mill is : "+mill);
-                    System.out.println("player 1 mills: "+getPlayer1Mills());
-                    System.out.println("player 2 mills: "+getPlayer2Mills());
+
 
 
                     return true;
@@ -141,8 +147,7 @@ public class NMMGame extends Game{
                     System.out.println("found new mill. player2");
                     System.out.println("new mill is : "+mill);
 
-                    System.out.println("player 1 mills: "+getPlayer1Mills());
-                    System.out.println("player 2 mills: "+getPlayer2Mills());
+
 
                     return true;
                 }
@@ -150,6 +155,9 @@ public class NMMGame extends Game{
         }
         System.out.println("player 1 mills: "+getPlayer1Mills());
         System.out.println("player 2 mills: "+getPlayer2Mills());
+        System.out.println("--------------------");
+        System.out.println("----------------");
+
         return false;
     }
 
@@ -356,9 +364,11 @@ public class NMMGame extends Game{
 
 //computer moves for NMM
     public void doComputerMoves(){
-
-
         if(playAgainstComputer){
+
+//
+
+
             //place state - player 2
             if(player2GameState==gameStates.PLACE && !isPlayer1Turn()){
                 ArrayList<Integer> emptyPieces=new ArrayList<>();
@@ -420,21 +430,380 @@ public class NMMGame extends Game{
 
             //movepick & movedrop
             if(player2GameState==gameStates.MOVEPICK && !isPlayer1Turn()){
+                System.out.println("Entered AutoMovePick");
+
                 //1 - make our mill
 
+                for(TreeSet<Integer> mill: nmmBoard.nmmMills) {
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+                    ArrayList<Integer> TwoToFormMill = new ArrayList<>();
+                    int c = 0, emptyPc = -1;
+
+                    //priority 1 - complete computer player mill when 2 in line, and one adjacent to the empty
+                    for (Integer pc : thisMill) {
+
+
+                        if (player2Pieces.contains(pc)) {
+                            TwoToFormMill.add(pc);
+                            c++;
+                        }
+                        if (!player2Pieces.contains(pc) && !player1Pieces.contains(pc)) {
+                            emptyPc = pc;
+                        }
+                    }
+
+                    if(c==2 && emptyPc!=-1){ // if 2 pcs in mill & 1 position empty
+                        for(int i=0;i<24;i++){ // for all positions on board
+                            if(Board.getEdgeExists(i,emptyPc) && !TwoToFormMill.contains(i)){
+                                //i is adjacent to emptyPc in mill position & i not in the 2 pcs in mill
+                                if(player2Pieces.contains(i)){
+                                    System.out.println("Entered AutoMovePick: Priority 1");
+                                    setComputerMoveDropLocation=true;
+                                    computerMoveDropLocation=emptyPc;
+                                    nmmBoard.roundBtnArray[i].doClick();
+
+
+
+                                    nmmBoard.roundBtnArray[emptyPc].doClick();
+
+
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+                    TwoToFormMill=null;
+                }
+                System.out.println("Between auto movePick 1 and 2");
+
                 //2 - block opponent mill
+                for(TreeSet<Integer> mill: nmmBoard.nmmMills) {
 
-                //3 - random move by looping on all pieces
-            }//end of movepick & movedrop
 
-            //flypick & flydrop
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+                    ArrayList<Integer> TwoToFormMill = new ArrayList<>();
+                    int c = 0, emptyPc = -1;
+
+                    //priority 2 - block opponent player mill when 2 in line (belong to opponent), and one adjacent to blank in mill
+                    for (Integer pc : thisMill) {
+                        if (player1Pieces.contains(pc)) {
+                            TwoToFormMill.add(pc);
+                            c++;
+                        }
+                        if (!player2Pieces.contains(pc) && !player1Pieces.contains(pc)) {
+                            emptyPc = pc;
+                        }
+                    }
+
+                    if(c==2 && emptyPc!=-1){ // if 2 pcs in mill & 1 position empty
+                        for(int i=0;i<24;i++){ // for all positions on board
+                            if(Board.getEdgeExists(i,emptyPc) && !TwoToFormMill.contains(i)){
+                                //i is adjacent to emptyPc in mill position & i not in the 2 pcs in mill
+                                if(player2Pieces.contains(i)){
+                                    System.out.println("Entered AutoMovePick: Priority 2");
+                                    setComputerMoveDropLocation=true;
+                                    computerMoveDropLocation=emptyPc;
+                                    nmmBoard.roundBtnArray[i].doClick();
+
+
+                                    nmmBoard.roundBtnArray[emptyPc].doClick();
+
+
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+                    TwoToFormMill=null;
+                }
+
+                System.out.println("Between auto movePick 2 and 3");
+
+                //priority 3 - move into a line of 3, where 1 is present, 2 are empty.
+                // do this when any one of 2 empty has a piece adjacent, which itself is not in a prospective mill
+                for(TreeSet<Integer> mill: nmmBoard.nmmMills) {
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+                    int OneToFormMill = -1;
+                    int c = 0, emptyPc = -1, emptyCnt=0, emptyPc2 = -1;
+
+                    //priority 3 -  player mill when 2 in line , and one adjacent to blank, in a mill
+                    for (Integer pc : thisMill) {
+                        if (player2Pieces.contains(pc)) {
+                            OneToFormMill=pc;
+                            c++;
+                        }
+                        if (!player2Pieces.contains(pc) && !player1Pieces.contains(pc)) {
+                            emptyCnt++;
+                            if(emptyCnt==1)
+                            {
+                                emptyPc2 = pc;
+                            }
+                            else{
+                                emptyPc = pc;
+                            }
+
+                        }
+                    }
+
+                    if(c==1 && emptyCnt==2){ // if 2 pcs in mill empty & 1 position occupied
+                        for(int i=0;i<24;i++){ // for all positions on board
+                            if(Board.getEdgeExists(i,emptyPc) && OneToFormMill!=i){
+                                //i is adjacent to emptyPc in mill position & i not in the 2 pcs in mill
+                                if(player2Pieces.contains(i)){
+                                    System.out.println("Entered AutoMovePick: Priority 3.1");
+                                    setComputerMoveDropLocation=true;
+                                    computerMoveDropLocation=emptyPc;
+                                    nmmBoard.roundBtnArray[i].doClick();
+
+                                    nmmBoard.roundBtnArray[emptyPc].doClick();
+
+
+                                    return;
+                                }
+                            }
+                            if(Board.getEdgeExists(i,emptyPc2) && OneToFormMill!=i){
+                                //i is adjacent to emptyPc2 in mill position & i not in the 2 pcs in mill
+                                if(player2Pieces.contains(i)){
+                                    System.out.println("Entered AutoMovePick: Priority 3.2");
+                                    setComputerMoveDropLocation=true;
+                                    computerMoveDropLocation=emptyPc2;
+                                    nmmBoard.roundBtnArray[i].doClick();
+
+                                    nmmBoard.roundBtnArray[emptyPc2].doClick();
+
+
+                                    return;
+                                }
+                            }
+
+                        }
+
+                    }
+                    OneToFormMill=-1;
+                }
+
+                System.out.println("Between auto movePick 3 and 4");
+
+                //priority 4 - random move by looping on all available pieces
+                ArrayList<Integer> randomPlayer2Pieces = new ArrayList<>(player2Pieces);
+
+                Collections.shuffle(randomPlayer2Pieces, new Random());
+
+                for(int i: randomPlayer2Pieces){
+                    ArrayList<Integer> emptyAdjacent=new ArrayList<>();
+                    for(int j=0;j<24;j++) {
+                        if(Board.getEdgeExists(i,j) && !player2Pieces.contains(j) && !player1Pieces.contains(j)){
+                            emptyAdjacent.add(j);
+                        }
+                    }
+                    if(emptyAdjacent.size()>0){
+                        Collections.shuffle(emptyAdjacent, new Random());
+                        System.out.println("Entered AutoMovePick: Priority 4");
+                        nmmBoard.roundBtnArray[i].doClick();
+                        nmmBoard.roundBtnArray[emptyAdjacent.get(0)].doClick();
+                        return;
+                    }
+                }
+
+                System.out.println("after auto movePick 4");
+
+
+                return;
+            }//end of movepick
+
+
+            //flypick
             if(player2GameState==gameStates.FLYPICK && !isPlayer1Turn()){
-                //1 - make our mill
+                //1 - make our mill - fly
+                System.out.println("Entered AutoFlyPick");
+
+                for(TreeSet<Integer> mill: nmmBoard.nmmMills) {
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+                    ArrayList<Integer> TwoToFormMill = new ArrayList<>();
+                    int c = 0, emptyPc = -1;
+
+                    //priority 1 - complete computer player mill when 2 in line, and one adjacent to the empty
+                    for (Integer pc : thisMill) {
+
+                        if (player2Pieces.contains(pc)) {
+                            TwoToFormMill.add(pc);
+                            c++;
+                        }
+                        if (!player2Pieces.contains(pc) && !player1Pieces.contains(pc)) {
+                            emptyPc = pc;
+                        }
+                    }
+
+                    if(c==2 && emptyPc!=-1){ // if 2 pcs in mill & 1 position empty
+                        for(int i=0;i<24;i++){ // for all positions on board
+                            if(!TwoToFormMill.contains(i)){
+                                // i not in the 2 pcs in mill
+                                if(player2Pieces.contains(i)){
+                                    System.out.println("Entered AutoFlyPick: Priority 1");
+                                    setComputerMoveDropLocation=true;
+                                    computerMoveDropLocation=emptyPc;
+                                    nmmBoard.roundBtnArray[i].doClick();
+                                    nmmBoard.roundBtnArray[emptyPc].doClick();
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+                    TwoToFormMill=null;
+                }
+                System.out.println("Between auto FlyPick 1 and 2");
 
                 //2 - block opponent mill
+                for(TreeSet<Integer> mill: nmmBoard.nmmMills) {
 
-                //3 - random fly
-            }//end of flypick and flydrop
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+                    ArrayList<Integer> TwoToFormMill = new ArrayList<>();
+                    int c = 0, emptyPc = -1;
+
+                    //priority 2 - block opponent player mill when 2 in line (belong to opponent), and one adjacent to blank in mill
+                    for (Integer pc : thisMill) {
+                        if (player1Pieces.contains(pc)) {
+                            TwoToFormMill.add(pc);
+                            c++;
+                        }
+                        if (!player2Pieces.contains(pc) && !player1Pieces.contains(pc)) {
+                            emptyPc = pc;
+                        }
+                    }
+
+                    if(c==2 && emptyPc!=-1){ // if 2 pcs in mill & 1 position empty
+                        for(int i=0;i<24;i++){ // for all positions on board
+                            if(!TwoToFormMill.contains(i)){
+                                // i not in the 2 pcs in mill
+                                if(player2Pieces.contains(i)){
+                                    System.out.println("Entered AutoFlyPick: Priority 2");
+                                    setComputerMoveDropLocation=true;
+                                    computerMoveDropLocation=emptyPc;
+                                    nmmBoard.roundBtnArray[i].doClick();
+
+                                    nmmBoard.roundBtnArray[emptyPc].doClick();
+
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+                    TwoToFormMill=null;
+                }
+
+                System.out.println("Between auto FlyPick 2 and 3");
+
+                //priority 3 - move into a line of 3, where 1 is present, 2 are empty.
+                // do this when any one of 2 empty has a piece adjacent, which itself is not in a prospective mill
+                for(TreeSet<Integer> mill: nmmBoard.nmmMills) {
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+                    int OneToFormMill = -1;
+                    int c = 0, emptyPc = -1, emptyCnt=0, emptyPc2 = -1;
+
+                    //priority 3 -  player mill when 1 in line , and one adjacent to blank, in a mill
+                    for (Integer pc : thisMill) {
+                        if (player2Pieces.contains(pc)) {
+                            OneToFormMill=pc;
+                            c++;
+                        }
+                        if (!player2Pieces.contains(pc) && !player1Pieces.contains(pc)) {
+                            emptyCnt++;
+                            if(emptyCnt==1)
+                            {
+                                emptyPc2 = pc;
+                            }
+                            else{
+                                emptyPc = pc;
+                            }
+                        }
+                    }
+
+                    if(c==1 && emptyCnt==2){ // if 2 pcs in mill empty & 1 position occupied
+                        for(int i=0;i<24;i++){ // for all positions on board
+
+                            long currentTime = System.currentTimeMillis();
+                            //use current time to select one point from 2 random places
+                            int dropLoc=-1;
+                            if(currentTime%2==0){
+                                dropLoc=emptyPc;
+                            }
+                            else{
+                                dropLoc=emptyPc2;
+                            }
+                            if(OneToFormMill!=i){
+                                // i not in the 2 pcs in mill
+                                if(player2Pieces.contains(i)){
+                                    System.out.println("Entered AutoFlyPick: Priority 3");
+                                    setComputerMoveDropLocation=true;
+                                    computerMoveDropLocation=dropLoc;
+                                    nmmBoard.roundBtnArray[i].doClick();
+
+                                    nmmBoard.roundBtnArray[dropLoc].doClick();
+
+
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+                    System.out.println("Between auto FlyPick 3 and 4");
+
+                    if(c==1 && emptyCnt==1){ // if 1 pc in mill empty & 1 position occupied
+                        for(int i=0;i<24;i++){ // for all positions on board
+                            if(OneToFormMill!=i){
+                                // i not in the 2 pcs in mill
+                                if(player2Pieces.contains(i)){
+                                    System.out.println("Entered AutoFlyPick: Priority 4");
+                                    setComputerMoveDropLocation=true;
+                                    computerMoveDropLocation=emptyPc;
+                                    nmmBoard.roundBtnArray[i].doClick();
+
+                                    nmmBoard.roundBtnArray[emptyPc].doClick();
+
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+                    OneToFormMill=-1;
+                }
+
+
+                System.out.println("Between auto FlyPick 4 and 5");
+
+
+                ArrayList<Integer> randomPlayer2Pieces = new ArrayList<>(player2Pieces);
+                Collections.shuffle(randomPlayer2Pieces, new Random());
+
+                for(int i: randomPlayer2Pieces){
+                    ArrayList<Integer> emptyPlaces=new ArrayList<>();
+                    for(int j=0;j<24;j++) {
+                        if(!player2Pieces.contains(j) && !player1Pieces.contains(j)){
+                            emptyPlaces.add(j);
+                        }
+                    }
+                    if(emptyPlaces.size()>0){
+                        Collections.shuffle(emptyPlaces, new Random());
+                        System.out.println("Entered AutoFlyPick: Priority 5");
+                        nmmBoard.roundBtnArray[i].doClick();
+                        nmmBoard.roundBtnArray[emptyPlaces.get(0)].doClick();
+                        return;
+                    }
+                }
+
+                System.out.println("after auto flyPick 5");
+
+
+                return;
+            }//end of flypick
+
+
 
             //remove
             if(player2GameState==gameStates.REMOVE && !isPlayer1Turn()) {
@@ -509,12 +878,10 @@ public class NMMGame extends Game{
 
                 }
 
-
                 ArrayList<Integer> player1millItems = new ArrayList<>();
                 for (TreeSet<Integer> ts : getPlayer1Mills()) {
                     player1millItems.addAll(ts);
                 }
-
 
                 //remove - randomize piece which is not in mill
                 ArrayList<Integer> tempPlayer1Items=new ArrayList<>(player1Pieces);
@@ -536,7 +903,6 @@ public class NMMGame extends Game{
                 }
 
             }//end of remove
-
 
         }//end of if playAgainstComputer
 
