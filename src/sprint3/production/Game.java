@@ -28,6 +28,11 @@ public abstract class Game {
     private boolean isDropSelectedButtonEmpty;// for testing purpose
     private boolean isAdjacentPosition;// for testing purpose
     //-----------------------------------------------------
+
+    protected File gameLogFile;
+    public static Integer countTotalMoves=0;
+    protected GameLog gameLog=new GameLog();
+
     private HashSet<TreeSet<Integer>> player1Mills = new HashSet<>();
     private HashSet<TreeSet<Integer>> player2Mills = new HashSet<>();
 
@@ -147,6 +152,8 @@ public abstract class Game {
 
     public boolean placePiece(int idx, boolean player1IsWhite){
 
+        countTotalMoves+=1;
+
 
         if (Board.roundBtnArray[idx].currentBtnState == buttonStates.EMPTY) {
 
@@ -176,6 +183,13 @@ public abstract class Game {
                     player1GameState=gameStates.REMOVE;
 
 
+                    setupJsonStructure(countTotalMoves,idx, 285+x[idx] - (Board.dim2/2),
+                    y[idx]-(dim1/2), dim2, dim2, String.valueOf(player1Color),
+                    roundBtnArray[idx].currentBtnState.toString(),
+                    Game.isPlayer1Turn()?"player 1":"player 2", player1Count);
+
+
+
 
                     return true;
                 }
@@ -183,7 +197,10 @@ public abstract class Game {
                 GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
 
 
-
+                setupJsonStructure(countTotalMoves,idx, 285+x[idx] - (Board.dim2/2),
+                        y[idx]-(dim1/2), dim2, dim2, String.valueOf(player1Color),
+                        roundBtnArray[idx].currentBtnState.toString(),
+                        Game.isPlayer1Turn()?"player 1":"player 2", player1Count);
 
                 checkGameOver();
 
@@ -213,6 +230,10 @@ public abstract class Game {
                     System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.REMOVE);
                     player2GameState=gameStates.REMOVE;
 
+                    setupJsonStructure(countTotalMoves,idx, 285+x[idx] - (Board.dim2/2),
+                            y[idx]-(dim1/2), dim2, dim2, String.valueOf(player2Color),
+                            roundBtnArray[idx].currentBtnState.toString(),
+                            Game.isPlayer1Turn()?"player 1":"player 2", player2Count);
 
 
                     doComputerMoves();//
@@ -224,7 +245,10 @@ public abstract class Game {
                 GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
 
 
-
+                setupJsonStructure(countTotalMoves,idx, 285+x[idx] - (Board.dim2/2),
+                        y[idx]-(dim1/2), dim2, dim2, String.valueOf(player2Color),
+                        roundBtnArray[idx].currentBtnState.toString(),
+                        Game.isPlayer1Turn()?"player 1":"player 2", player2Count);
 
 
                 checkGameOver();//
@@ -278,7 +302,7 @@ public abstract class Game {
         isDropSelectedButtonEmpty=Board.roundBtnArray[dropIdx].currentBtnState==buttonStates.EMPTY;// class field
         isAdjacentPosition = Board.getEdgeExists(movePickIdx,dropIdx);// class field
 
-
+        countTotalMoves+=1;//olena
 
         if(isPlayer1Turn() && isAdjacentPosition && isDropSelectedButtonEmpty){
             //updating list variable
@@ -290,6 +314,14 @@ public abstract class Game {
             Board.roundBtnArray[movePickIdx].setBackground(Color.WHITE);
             Board.roundBtnArray[movePickIdx].setBounds(285+x[movePickIdx]-(dim1/2),y[movePickIdx],dim1,dim1);
 
+
+            setupLogAttributes(countTotalMoves,movePickIdx, 285+x[movePickIdx] - dim1/2,
+                    y[movePickIdx], dim1, dim1, String.valueOf(Color.WHITE),
+                    roundBtnArray[movePickIdx].currentBtnState.toString(),
+                    Game.isPlayer1Turn()?"player 1":"player 2", player1Count);
+            if(GamePlayGUI.record){
+                gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+            }
 
 
             //updating gui buttons-change moveDrop btn-pl1
@@ -306,7 +338,13 @@ public abstract class Game {
                 System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.REMOVE);
                 player1GameState=gameStates.REMOVE;
 
-
+                setupLogAttributes(countTotalMoves,dropIdx, 285+x[dropIdx] - Board.dim2/2,
+                        y[dropIdx]-(dim1/2), dim2, dim2, String.valueOf(player1Color),
+                        roundBtnArray[dropIdx].currentBtnState.toString(),
+                        Game.isPlayer1Turn()?"player 1":"player 2", player1Count);
+                if(GamePlayGUI.record){
+                    gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+                }
 
 
                 return true;
@@ -316,6 +354,17 @@ public abstract class Game {
 
             Game.setPlayer1Turn(false);
             GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
+            setupLogAttributes(countTotalMoves, dropIdx, 285+x[dropIdx]-(Board.dim2/2),
+                    y[dropIdx]-(dim1/2), dim2, dim2, String.valueOf(player1Color),
+                    roundBtnArray[dropIdx].currentBtnState.toString(),
+                    Game.isPlayer1Turn()?"player 1":"player 2", player1Count);
+                    if(GamePlayGUI.record){
+                        gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+                    }
+
+
             movePickIdx=-1;
 
             System.out.println("Changed player 1 from: "+player1GameState+" to: "+gameStates.MOVEPICK);
@@ -341,7 +390,13 @@ public abstract class Game {
             Board.roundBtnArray[movePickIdx].setBounds(285+x[movePickIdx]-(dim1/2),y[movePickIdx],dim1,dim1);
 
 
-
+            setupLogAttributes(countTotalMoves, movePickIdx, 285+x[movePickIdx]-(dim1/2),
+                    y[movePickIdx], dim1, dim1, String.valueOf(Color.WHITE),
+                    roundBtnArray[movePickIdx].currentBtnState.toString(),
+                    Game.isPlayer1Turn()?"player 1":"player 2", player2Count);
+            if(GamePlayGUI.record){
+                gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+            }
 
 
             //updating gui buttons-change moveDrop btn-pl2
@@ -364,6 +419,16 @@ public abstract class Game {
 
 
 
+                setupLogAttributes(countTotalMoves, dropIdx, 285+x[dropIdx]-(Board.dim2/2),
+                        y[dropIdx]-(dim1/2), dim2, dim2, String.valueOf(player1Color),
+                        roundBtnArray[dropIdx].currentBtnState.toString(),
+                        Game.isPlayer1Turn()?"player 1":"player 2", player2Count);
+                if(GamePlayGUI.record){
+                    gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+                }
+
+
+
 
                 doComputerMoves();
 
@@ -378,6 +443,20 @@ public abstract class Game {
             player2GameState=gameStates.MOVEPICK;
 
             GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
+
+            setupLogAttributes(countTotalMoves, dropIdx, 285+x[dropIdx]-(Board.dim2/2),
+                    y[dropIdx]-(dim1/2), dim2, dim2, String.valueOf(player1Color),
+                    roundBtnArray[dropIdx].currentBtnState.toString(),
+                    Game.isPlayer1Turn()?"player 1":"player 2", player1Count);
+            if(GamePlayGUI.record){
+                gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+            }
+
+
+
+
             movePickIdx=-1;
 
 
@@ -425,6 +504,7 @@ public abstract class Game {
         //flyDrop
         boolean isDropSelectedButtonEmpty=Board.roundBtnArray[dropIdx].currentBtnState==buttonStates.EMPTY;
 
+        countTotalMoves+=1;//olena
 
         if(isPlayer1Turn()  && isDropSelectedButtonEmpty){
             //updating list variable
@@ -437,7 +517,13 @@ public abstract class Game {
             Board.roundBtnArray[flyPickIdx].setBounds(285+x[flyPickIdx]-(dim1/2),y[flyPickIdx],dim1,dim1);
 
 
-
+            setupLogAttributes(countTotalMoves, flyPickIdx, 285+x[flyPickIdx]-(dim1/2),
+                    y[flyPickIdx], dim1, dim1, String.valueOf(Color.WHITE),
+                    roundBtnArray[flyPickIdx].currentBtnState.toString(),
+                    Game.isPlayer1Turn()?"player 1":"player 2", player1Count);
+            if(GamePlayGUI.record){
+                gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+            }
 
 
             //updating gui buttons-change flyDrop btn-pl1
@@ -455,6 +541,13 @@ public abstract class Game {
                 player1GameState=gameStates.REMOVE;
 
 
+                setupLogAttributes(countTotalMoves, dropIdx, 285+x[dropIdx]-(Board.dim2/2),
+                        y[dropIdx]-(dim1/2), dim2, dim2, String.valueOf(player1Color),
+                        roundBtnArray[dropIdx].currentBtnState.toString(),
+                        Game.isPlayer1Turn()?"player 1":"player 2", player1Count);
+                if(GamePlayGUI.record){
+                    gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+                }
 
 
 
@@ -465,12 +558,18 @@ public abstract class Game {
             Game.setPlayer1Turn(false);
 
 
-            System.out.println("Changed player 1 from: "+player1GameState+" to: "+gameStates.FLYPICK);
-            player1GameState=gameStates.FLYPICK;
+//            System.out.println("Changed player 1 from: "+player1GameState+" to: "+gameStates.FLYPICK);
+//            player1GameState=gameStates.FLYPICK;
 
             GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
 
-
+            setupLogAttributes(countTotalMoves, dropIdx, 285+x[dropIdx]-(Board.dim2/2),
+                    y[dropIdx]-(dim1/2), dim2, dim2, String.valueOf(player1Color),
+                    roundBtnArray[dropIdx].currentBtnState.toString(),
+                    Game.isPlayer1Turn()?"player 1":"player 2", player1Count);
+            if(GamePlayGUI.record){
+                gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+            }
 
 
 
@@ -495,7 +594,13 @@ public abstract class Game {
             Board.roundBtnArray[flyPickIdx].setBounds(285+x[flyPickIdx]-(dim1/2),y[flyPickIdx],dim1,dim1);
 
 
-
+            setupLogAttributes(countTotalMoves, flyPickIdx, 285+x[flyPickIdx]-dim1/2,
+                    y[flyPickIdx], dim1, dim1, String.valueOf(Color.WHITE),
+                    roundBtnArray[flyPickIdx].currentBtnState.toString(),
+                    Game.isPlayer1Turn()?"player 1":"player 2", player2Count);
+            if(GamePlayGUI.record){
+                gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+            }
 
 
 
@@ -514,7 +619,13 @@ public abstract class Game {
                 player2GameState=gameStates.REMOVE;
 
 
-
+                setupLogAttributes(countTotalMoves, dropIdx, 285+x[dropIdx]-(Board.dim2/2),
+                        y[dropIdx]-(dim1/2), dim2, dim2, String.valueOf(player2Color),
+                        roundBtnArray[dropIdx].currentBtnState.toString(),
+                        Game.isPlayer1Turn()?"player 1":"player 2", player2Count);
+                if(GamePlayGUI.record){
+                    gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+                }
 
 
                 doComputerMoves();//
@@ -525,11 +636,20 @@ public abstract class Game {
 
             Game.setPlayer1Turn(true);
 
-            System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.FLYPICK);
-            player2GameState=gameStates.FLYPICK;
+//            System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.FLYPICK);
+//            player2GameState=gameStates.FLYPICK;
 
 
             GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
+            setupLogAttributes(countTotalMoves, dropIdx, 285+x[dropIdx]-(Board.dim2/2),
+                    y[dropIdx]-(dim1/2), dim2, dim2, String.valueOf(player2Color),
+                    roundBtnArray[dropIdx].currentBtnState.toString(),
+                    Game.isPlayer1Turn()?"player 1":"player 2", player2Count);
+            if(GamePlayGUI.record){
+                gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+            }
 
 
 
@@ -567,6 +687,9 @@ public abstract class Game {
             }
             System.out.println("inside remove, player 1 removing");
 
+            countTotalMoves+=1;//olena
+
+
 
             System.out.println("Changed Player 1 from: "+player1GameState+" to: "+gameStates.REMOVE);
             player1GameState = gameStates.REMOVE;
@@ -581,6 +704,15 @@ public abstract class Game {
 
             setPlayer1Turn(false);
             GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
+
+
+            setupLogAttributes(countTotalMoves, idx, 285+x[idx]-dim1/2,
+                    y[idx], dim1, dim1, String.valueOf(Color.WHITE),
+                    roundBtnArray[idx].currentBtnState.toString(),
+                    isPlayer1Turn ?"player 1":"player 2", player2Count);
+            if(GamePlayGUI.record){
+                gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+            }
 
 
 
@@ -643,6 +775,8 @@ public abstract class Game {
             }
             System.out.println("inside remove, player 2 removing");
 
+            countTotalMoves+=1;//olena
+
 
             System.out.println("Changed player 2 from: "+player2GameState+" to: "+gameStates.REMOVE);
             player2GameState = gameStates.REMOVE;
@@ -659,7 +793,13 @@ public abstract class Game {
             GameSetupGUI.getXmmGameGUI().updatePlayerTurnLabel();
 
 
-
+            setupLogAttributes(countTotalMoves, idx, 285+x[idx]-dim1/2,
+                    y[idx], dim1, dim1, String.valueOf(Color.WHITE),
+                    roundBtnArray[idx].currentBtnState.toString(),
+                    isPlayer1Turn?"player 1":"player 2", player2Count);
+            if(GamePlayGUI.record){
+                gameLog.writeMovesToFile(gameLogFile.getAbsolutePath());
+            }
 
 
             if(player1Count>0){
@@ -706,68 +846,117 @@ public abstract class Game {
         return false;
     }
 
-    File gameLogFile;
+
     public boolean dirAndFileSetup(){
-        //game file in src dir setup
-        boolean gameFileExists = false;
-//
-              Path gameLogFilePath = Paths.get("src/sprint3/production","gameLogFile.json");
-              gameFileExists = Files.exists(gameLogFilePath);
-              gameLogFile= new File(String.valueOf(gameLogFilePath));
-            if(gameFileExists == false){
-                try {
-                    gameLogFile.createNewFile();
-                    gameLogFile.setWritable(true);
-                    gameLogFile.setReadable(true);
 
-                    FileWriter writer = new FileWriter(gameLogFile);
+        String homeDir=System.getProperty("user.home");
+        Path gameDirPath = Paths.get(homeDir, "MillsData");
+        boolean gameDirExists=false;
 
-                    // Write text to the file
-                    writer.write("{\"moves\":[]}");
+        if(Files.exists(gameDirPath)==false){
+            File gameDir=new File(String.valueOf(gameDirPath));
+            try{
+                gameDirExists=gameDir.mkdir();
+            }
+            catch(Throwable e){
+                System.out.println("Exception in creating Game Directory: ");
+                e.printStackTrace();
+                return false;
+            }
 
-                    // Close the writer
-                    writer.close();
+        }
+        else{
+            gameDirExists=true;
+        }
 
+             boolean gameFileExists = false;
+            if(gameDirExists){
+                Path gameLogFilePath = Paths.get(String.valueOf(gameDirPath),  "gameLogFile.json");
+                gameFileExists = Files.exists(gameLogFilePath);
+
+                //File
+                gameLogFile= new File(String.valueOf(gameLogFilePath));
+
+                if(gameFileExists == false){
+//            gameLogFile = new File(String.valueOf(gameLogFilePath));
+                    try {
+                        boolean createdFile =  gameLogFile.createNewFile();
+                    } catch (IOException e) {
+                        System.out.println("Exception in creating Game File: ");
+                        e.printStackTrace();
+                        return false;
+                    }
+                    boolean writePermission = gameLogFile.setWritable(true);
+                    boolean readPermission = gameLogFile.setReadable(true);
+
+
+                    gameFileExists=true;
                 }
-                catch (IOException e) {
-                    System.out.println("Exception in creating Game File: ");
+
+     /*       if(gameLogFile.canRead() && gameLogFile.canWrite()){
+                try{
+                    System.out.println("Game log file entered.");
+                    FileWriter writerObj = new FileWriter(gameLogFile,true);
+                    writerObj.write("123\n");
+                    writerObj.close();
+                }
+                catch(IOException e){
+                    System.out.println("File write error.");
                     e.printStackTrace();
                     return false;
                 }
+
+            }//
+
+      */
             }
-            else{
-                //first enpty the file
-                try {
-                    Files.newOutputStream(gameLogFilePath, StandardOpenOption.TRUNCATE_EXISTING).close();
-                }
-                catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                //now setup the file
-                FileWriter writer = null;
-                try {
-                    gameLogFile.createNewFile();
-                    gameLogFile.setWritable(true);
-                    gameLogFile.setReadable(true);
-
-                    writer = new FileWriter(gameLogFile);
-                    // Write text to the file
-                    writer.write("{\"moves\":[]}");
-                    // Close the writer
-                    writer.close();
-                }
-                catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
         return true;
     }
     public abstract boolean checkMillFormation(ArrayList<Integer> playersPieces, HashSet<TreeSet<Integer>> formedMills);//
 
     public abstract boolean checkGameOver();//
+
+
+    public void setupJsonStructure(int moveNum, int pos, int x, int y, int w, int h, String color, String state,
+                                   String turn, int piecesLeft){
+
+        JSONObject movesObj = new JSONObject();
+        JSONArray movesArray = new JSONArray();
+        JSONObject moveObj = new JSONObject();
+
+        moveObj.put("move", moveNum);
+        moveObj.put("position", pos);
+        moveObj.put("x", x);
+        moveObj.put("y",y);
+        moveObj.put("w",w);
+        moveObj.put("h", h);
+        moveObj.put("color", color);
+        moveObj.put("state", state);
+        moveObj.put("turn", turn);
+        moveObj.put("piecesLeft", piecesLeft);
+
+        jsonArray.put(moveObj);
+
+        movesObj.put("moves", jsonArray);
+        gameLog.setMovesObject(movesObj);
+
+    }
+
+    public void setupLogAttributes(int moveNum, int pos, int x, int y, int w, int h, String color, String state,
+                                   String turn, int piecesLeft){
+        gameLog.setMoveNumber(moveNum);
+        gameLog.setPosition(pos);
+        gameLog.setX(x);
+        gameLog.setY(y);
+        gameLog.setW(w);
+        gameLog.setH(h);
+        gameLog.setColor(color);
+        gameLog.setButtonState(state);
+        gameLog.setTurn(turn);
+        gameLog.setPiecesLeft(piecesLeft);
+    }
+
+
 
     public abstract void doComputerMoves();//
 

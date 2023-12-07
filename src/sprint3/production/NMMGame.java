@@ -73,6 +73,12 @@ public class NMMGame extends Game{
                     if(pl1Place || pl2Place){
 //                      call place function player1
                         placePiece(j,player1IsWhite);
+
+                        if(GamePlayGUI.record){
+                            gameLog.writeGameLogFile(gameLogFile.getAbsolutePath());
+                        }
+
+
                     }
                     else if(pl1MovePick || pl2MovePick){
 //                      call movePick function
