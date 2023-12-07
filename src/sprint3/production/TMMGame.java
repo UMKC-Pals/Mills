@@ -1,8 +1,6 @@
 package sprint3.production;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.*;
 
 
 import javax.swing.*;
@@ -220,6 +218,102 @@ public class TMMGame extends Game{
 
             //move pick and drop
             if(player2GameState==gameStates.MOVEPICK && !isPlayer1Turn()) {
+
+
+                //priority 1 - complete computer player mill
+                for(TreeSet<Integer> mill: tmmBoard.tmmMills) {
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+
+                    ArrayList<Integer> TwoToFormMill=new ArrayList<>();
+
+                    int c = 0, emptyPc = -1;
+                    //priority 1 - complete computer player mill
+                    for (Integer pc : thisMill) {
+                        if (player2Pieces.contains(pc)) {
+                            c++;
+                            TwoToFormMill.add(pc);
+                        }
+                        if (!player2Pieces.contains(pc) && !player1Pieces.contains(pc)) {
+                            emptyPc = pc;
+                        }
+
+                    }
+                    int movePickLoc=-1;
+                    for(int itr=0;itr<tmmIndices.length;itr++){
+                        int i=tmmIndices[itr];
+                        if(player2Pieces.contains(i) && !TwoToFormMill.contains(i) && Board.getEdgeExists(i,emptyPc)){
+
+                            movePickLoc=i;
+                            break;
+                        }
+                    }
+                    if (c == 2 && emptyPc != -1 && movePickLoc!=-1) {
+                        System.out.println("Entered AutoMovePickDrop: Priority 1");
+
+                        tmmBoard.roundBtnArray[movePickLoc].doClick();
+                        tmmBoard.roundBtnArray[emptyPc].doClick();
+                        return;
+                    }
+                }
+
+
+
+                //priority 2 - block opponent mill
+                for(TreeSet<Integer> mill: tmmBoard.tmmMills) {
+                    ArrayList<Integer> thisMill = new ArrayList<>(mill);
+
+                    ArrayList<Integer> TwoToFormMill=new ArrayList<>();
+
+                    int c = 0, emptyPc = -1;
+                    //priority 1 - block opponent player mill
+                    for (Integer pc : thisMill) {
+                        if (player1Pieces.contains(pc)) {
+                            c++;
+                            TwoToFormMill.add(pc);
+                        }
+                        if (!player2Pieces.contains(pc) && !player1Pieces.contains(pc)) {
+                            emptyPc = pc;
+                        }
+
+                    }
+                    int movePickLoc=-1;
+                    for(int itr=0;itr<tmmIndices.length;itr++){
+                        int i=tmmIndices[itr];
+                        if(player2Pieces.contains(i) && Board.getEdgeExists(i,emptyPc)){
+                            movePickLoc=i;
+                            break;
+                        }
+                    }
+                    if (c == 2 && emptyPc != -1 && movePickLoc!=-1) {
+                        System.out.println("Entered AutoMovePickDrop: Priority 2");
+
+                        tmmBoard.roundBtnArray[movePickLoc].doClick();
+                        tmmBoard.roundBtnArray[emptyPc].doClick();
+                        return;
+                    }
+                }
+
+                //priority 3 - random
+                ArrayList<Integer> randomPlayer2Pieces = new ArrayList<>(player2Pieces);
+
+                Collections.shuffle(randomPlayer2Pieces, new Random());
+
+                for(int i: randomPlayer2Pieces){
+                    ArrayList<Integer> emptyAdjacent=new ArrayList<>();
+                    for(int itr=0;itr<tmmIndices.length;itr++) {
+                        int j=tmmIndices[itr];
+                        if(Board.getEdgeExists(i,j) && !player2Pieces.contains(j) && !player1Pieces.contains(j)){
+                            emptyAdjacent.add(j);
+                        }
+                    }
+                    if(emptyAdjacent.size()>0){
+                        Collections.shuffle(emptyAdjacent, new Random());
+                        System.out.println("Entered AutoMovePickDrop: Priority 3");
+                        tmmBoard.roundBtnArray[i].doClick();
+                        tmmBoard.roundBtnArray[emptyAdjacent.get(0)].doClick();
+                        return;
+                    }
+                }
 
             }
 
